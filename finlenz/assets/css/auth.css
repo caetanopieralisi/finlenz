@@ -1,0 +1,25 @@
+.auth-body{ min-height:100vh; display:flex; align-items:center; justify-content:center; background: linear-gradient(160deg, var(--primary), var(--primary-dark)); padding: 32px 16px; }
+.auth-wrap{ width:100%; max-width: 400px; }
+.brand--center{ display:flex; align-items:center; justify-content:center; gap:8px; margin-bottom:24px; }
+.brand--center .brand__name{ color:#fff; }
+.brand--center .brand__mark{ background:#fff; color:var(--primary); }
+
+.auth-card{ background:#fff; }
+.auth-tabs{ display:flex; background:var(--bg); border-radius:999px; padding:4px; margin-bottom:20px; }
+.auth-tab{ flex:1; padding:10px; border-radius:999px; background:transparent; font-weight:700; color:var(--text-soft); }
+.auth-tab.is-active{ background:var(--primary); color:#fff; }
+
+.auth-form{ display:flex; flex-direction:column; gap:14px; }
+.auth-form label{ display:flex; flex-direction:column; gap:6px; font-size:13px; font-weight:600; color:var(--text-soft); }
+.auth-form input{ padding:12px 14px; border-radius: var(--radius-sm); border:1.5px solid var(--border); font-size:15px; color:var(--text); }
+.auth-form input:focus{ outline:none; border-color: var(--primary); }
+.auth-error{ color:var(--expense); font-size:13px; min-height:16px; }
+
+.auth-divider{ display:flex; align-items:center; gap:10px; margin:20px 0 14px; color:var(--text-soft); font-size:12px; }
+.auth-divider::before, .auth-divider::after{ content:""; flex:1; height:1px; background:var(--border); }
+
+.auth-demo-note{ font-size:12px; color:var(--text-soft); text-align:center; margin-top:10px; }
+
+/* Painel admin escondido: modal simples que aparece via código secreto */
+.admin-gate{ position:fixed; inset:0; background:rgba(27,37,69,.65); display:flex; align-items:center; justify-content:center; z-index:50; }
+.admin-gate[hidden]{ display:none; }
