@@ -1,20 +1,6 @@
 import { supabase } from "./supabaseClient.js";
 import { DEMO_EMAIL, DEMO_PASSWORD, ADMIN_SECRET_CODE } from "./config.js";
 
-// ---------- Debug visível na tela (WebView do App Inventor não mostra alert()) ----------
-function log(msg){
-  const box = document.getElementById("debugBox");
-  if (!box) return;
-  const time = new Date().toLocaleTimeString();
-  box.textContent += `[${time}] ${msg}\n`;
-  box.scrollTop = box.scrollHeight;
-}
-log("login.html carregado. localStorage disponível: " + (function(){
-  try { localStorage.setItem("__t","1"); localStorage.removeItem("__t"); return "sim"; }
-  catch(e){ return "NÃO (" + e.message + ")"; }
-})());
-log("cookies disponíveis: " + (navigator.cookieEnabled ? "sim" : "NÃO"));
-
 // ---------- Tabs ----------
 const tabs = document.querySelectorAll(".auth-tab");
 const loginForm = document.getElementById("loginForm");
@@ -31,15 +17,16 @@ const params = new URLSearchParams(location.search);
 if (params.get("mode") === "signup") setTab("signup");
 
 // Espera a sessão realmente aparecer via getSession() antes de navegar.
+// Em alguns WebViews a escrita da sessão pode atrasar alguns instantes
+// em relação à resposta do login.
 async function goToAppWhenSessionReady(){
   for (let i = 0; i < 10; i++) {
-    log(`checando sessão (tentativa ${i + 1})...`);
-    const { data, error } = await supabase.auth.getSession();
-    if (error) log("erro em getSession: " + error.message);
-    if (data.session) { log("sessão confirmada, indo para app.html"); location.href = "app.html"; return; }
+    const { data } = await supabase.auth.getSession();
+    if (data.session) { location.href = "app.html"; return; }
     await new Promise(r => setTimeout(r, 300));
   }
-  log("FALHA: sessão nunca ficou disponível via getSession(). Provável bloqueio de localStorage neste WebView.");
+  console.error("[finlenz] sessão não confirmada após login.");
+  location.href = "app.html";
 }
 
 // ---------- Login ----------
@@ -50,16 +37,14 @@ loginForm.addEventListener("submit", async (e) => {
   const errEl = document.getElementById("loginError");
   errEl.textContent = "";
 
-  log("login: enviando signInWithPassword...");
   let result;
   try {
     result = await supabase.auth.signInWithPassword({ email, password });
   } catch (err) {
-    log("login: EXCEÇÃO -> " + err.message);
+    errEl.textContent = "Não foi possível entrar agora. Tente novamente.";
     return;
   }
-  if (result.error) { log("login: erro retornado -> " + result.error.message); errEl.textContent = "E-mail ou senha inválidos."; return; }
-  log("login: sucesso, session presente? " + !!result.data.session);
+  if (result.error) { errEl.textContent = "E-mail ou senha inválidos."; return; }
   await goToAppWhenSessionReady();
 });
 
@@ -73,21 +58,20 @@ signupForm.addEventListener("submit", async (e) => {
   const errEl = document.getElementById("signupError");
   errEl.textContent = "";
 
-  log("signup: enviando signUp...");
   let result;
   try {
     result = await supabase.auth.signUp({ email, password });
   } catch (err) {
-    log("signup: EXCEÇÃO -> " + err.message);
+    errEl.textContent = "Não foi possível criar a conta agora. Tente novamente.";
     return;
   }
   const { data, error } = result;
-  if (error) { log("signup: erro retornado -> " + error.message); errEl.textContent = traduzErro(error.message); return; }
-  log("signup: sucesso, session presente? " + !!data.session);
+  if (error) { errEl.textContent = traduzErro(error.message); return; }
 
   if (data.user) {
+    // O perfil base já foi criado automaticamente por uma trigger no banco;
+    // aqui só complementamos com nome e renda informados no cadastro.
     await supabase.from("profiles").upsert({ id: data.user.id, name, monthly_income: income }, { onConflict: "id" });
-    log("signup: perfil salvo.");
   }
   await goToAppWhenSessionReady();
 });
@@ -104,7 +88,6 @@ document.getElementById("demoBtn").addEventListener("click", async () => {
   btn.disabled = true;
   btn.textContent = "Preparando a conta demo...";
 
-  log("demo: enviando signInWithPassword...");
   let result;
   try {
     result = await supabase.auth.signInWithPassword({
@@ -112,33 +95,33 @@ document.getElementById("demoBtn").addEventListener("click", async () => {
       password: DEMO_PASSWORD,
     });
   } catch (err) {
-    log("demo: EXCEÇÃO -> " + err.message);
+    alert("Conta demo indisponível no momento. Veja o README para configurá-la no Supabase.");
     btn.disabled = false;
     btn.textContent = "» Iniciar conta demo";
     return;
   }
 
   if (result.error) {
-    log("demo: erro retornado -> " + result.error.message);
+    alert("Conta demo indisponível no momento. Veja o README para configurá-la no Supabase.");
     btn.disabled = false;
     btn.textContent = "» Iniciar conta demo";
     return;
   }
-  log("demo: sucesso, session presente? " + !!result.data.session);
 
+  // Sempre reseta os dados da conta demo para o estado original antes de entrar.
   try {
     await supabase.rpc("reset_demo_data");
-    log("demo: reset_demo_data ok.");
   } catch (err) {
-    log("demo: falha ao resetar dados -> " + err.message);
+    console.error("[finlenz] falha ao resetar dados demo:", err);
   }
   await goToAppWhenSessionReady();
 });
 
 // ---------- Acesso escondido ao painel admin ----------
+// Digite o código em qualquer lugar desta tela (não precisa estar em um campo).
 let buffer = "";
 window.addEventListener("keydown", (e) => {
-  if (e.key.length > 1) return;
+  if (e.key.length > 1) return; // ignora teclas especiais (Shift, Enter, etc.)
   buffer = (buffer + e.key).slice(-ADMIN_SECRET_CODE.length);
   if (buffer.toLowerCase() === ADMIN_SECRET_CODE.toLowerCase()) {
     location.href = "admin.html";

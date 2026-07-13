@@ -130,26 +130,16 @@ document.getElementById("settingsClearBtn")?.addEventListener("click", async () 
 });
 
 // ---------- Autenticação e carregamento das ferramentas ----------
-function dlog(msg){
-  const box = document.getElementById("debugBox");
-  if (!box) return;
-  box.textContent += `[${new Date().toLocaleTimeString()}] ${msg}\n`;
-  box.scrollTop = box.scrollHeight;
-}
-
 (async function boot(){
-  dlog("app.html carregado, checando sessão...");
   let session;
   try {
     const res = await supabase.auth.getSession();
     session = res.data.session;
-    dlog("getSession retornou. session presente? " + !!session);
   } catch (err) {
-    dlog("EXCEÇÃO ao checar sessão: " + err.message);
+    console.error("[finlenz] falha ao checar sessão:", err);
   }
 
   if (!session) {
-    dlog("sem sessão, voltando para login.html");
     location.href = "login.html";
     return;
   }
