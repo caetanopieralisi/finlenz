@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<title>Finlenz - Painel</title>
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="assets/css/style.css">
+<link rel="stylesheet" href="assets/css/app.css">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4"></script>
+</head>
+<body class="app-body">
+
+<div id="authGate" class="auth-loading">Carregando sua conta...</div>
+
+<div id="appShell" class="app-shell" hidden>
+
+  <!-- Topbar -->
+  <header class="topbar">
+    <button id="backBtn" class="icon-btn" hidden aria-label="Voltar">←</button>
+    <img src="assets/img/logo.png" alt="Finlenz" class="brand__logo topbar__logo">
+    <h1 id="screenTitle">Início</h1>
+    <button id="menuBtn" class="icon-btn" aria-label="Menu">☰</button>
+  </header>
+
+  <main class="screens">
+
+    <!-- HOME -->
+    <section class="screen is-active" id="screen-home">
+      <div class="hello-card card">
+        <p>Olá, <strong id="homeName">-</strong>!</p>
+        <span id="homeDemoTag" class="badge badge-income" hidden>conta demo</span>
+      </div>
+
+      <div class="summary-grid">
+        <div class="card summary-card">
+          <span>Receitas do mês</span>
+          <strong id="sumIncome" class="text-income">R$ 0,00</strong>
+        </div>
+        <div class="card summary-card">
+          <span>Despesas do mês</span>
+          <strong id="sumExpense" class="text-expense">R$ 0,00</strong>
+        </div>
+        <div class="card summary-card summary-card--wide">
+          <span>Saldo do mês</span>
+          <strong id="sumBalance">R$ 0,00</strong>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>Últimos lançamentos</h3>
+        <ul id="homeRecent" class="tx-list"></ul>
+        <button class="btn btn-outline btn-block btn-sm" data-goto="transactions">Ver todos</button>
+      </div>
+
+      <h3 class="section-heading">Ferramentas</h3>
+      <div class="tools-grid" id="homeToolsGrid"></div>
+    </section>
+
+    <!-- TRANSAÇÕES -->
+    <section class="screen" id="screen-transactions">
+      <form id="txForm" class="card tx-form">
+        <div class="segmented">
+          <button type="button" class="segmented__opt is-active" data-type="expense">Despesa</button>
+          <button type="button" class="segmented__opt" data-type="income">Receita</button>
+        </div>
+        <input type="hidden" id="txType" value="expense">
+        <label>Descrição<input type="text" id="txDesc" required placeholder="Ex: iFood"></label>
+        <div class="form-row">
+          <label>Valor (R$)<input type="number" id="txAmount" required min="0" step="0.01" placeholder="0,00"></label>
+          <label>Categoria
+            <select id="txCategory">
+              <option>Alimentação</option><option>Transporte</option><option>Lazer</option>
+              <option>Moradia</option><option>Educação</option><option>Saúde</option>
+              <option>Renda</option><option>Outros</option>
+            </select>
+          </label>
+        </div>
+        <label>Data<input type="date" id="txDate" required></label>
+        <button class="btn btn-primary btn-block" type="submit">Adicionar lançamento</button>
+      </form>
+
+      <div class="card">
+        <h3>Histórico</h3>
+        <ul id="txList" class="tx-list"></ul>
+      </div>
+    </section>
+
+    <!-- VALOR-HORA -->
+    <section class="screen" id="screen-hourvalue">
+      <div class="card">
+        <h3>Quanto essa compra custa em horas suas?</h3>
+        <p class="muted">Informe sua renda média e a jornada semanal pra descobrir quantas horas de trabalho equivalem a essa compra.</p>
+        <label>Renda média mensal (R$)<input type="number" id="hvIncome" min="0" step="0.01"></label>
+        <label>Horas trabalhadas por semana<input type="number" id="hvHours" min="1" step="1" value="40"></label>
+        <label>Valor da compra (R$)<input type="number" id="hvPrice" min="0" step="0.01" placeholder="Ex: 320"></label>
+        <button class="btn btn-primary btn-block" id="hvCalcBtn">Calcular</button>
+        <div id="hvResult" class="result-box" hidden></div>
+      </div>
+    </section>
+
+    <!-- SONHOS -->
+    <section class="screen" id="screen-dreams">
+      <div class="card">
+        <h3>Cadastrar um sonho</h3>
+        <label>Nome do sonho<input type="text" id="dreamName" placeholder="Ex: Intercâmbio"></label>
+        <label>Valor total (R$)<input type="number" id="dreamTarget" min="0" step="0.01"></label>
+        <label>Quanto você já guardou (R$)<input type="number" id="dreamSaved" min="0" step="0.01" value="0"></label>
+        <label>Quanto você consegue guardar por mês (R$)<input type="number" id="dreamMonthly" min="0" step="0.01"></label>
+        <button class="btn btn-primary btn-block" id="dreamAddBtn">Salvar sonho</button>
+      </div>
+
+      <div class="card">
+        <h3>Seus sonhos</h3>
+        <div id="dreamsList" class="dreams-list"></div>
+      </div>
+
+      <div class="card">
+        <h3>Vale a pena esse gasto agora?</h3>
+        <p class="muted">Escolha um sonho e veja o quanto essa compra vai atrasá-lo.</p>
+        <label>Sonho
+          <select id="dreamPickForCost"></select>
+        </label>
+        <label>Valor da compra (R$)<input type="number" id="dreamCostPrice" min="0" step="0.01"></label>
+        <button class="btn btn-outline btn-block" id="dreamCostBtn">Ver impacto no sonho</button>
+        <div id="dreamCostResult" class="result-box" hidden></div>
+      </div>
+    </section>
+
+    <!-- PREVISÃO -->
+    <section class="screen" id="screen-forecast">
+      <div class="card">
+        <label>Quanto você já tem guardado hoje (R$)
+          <input type="number" id="fcSavings" min="0" step="0.01" placeholder="0,00">
+        </label>
+        <p class="muted small">Usamos esse valor como ponto de partida da previsão. Ele é salvo automaticamente.</p>
+      </div>
+
+      <div class="summary-grid">
+        <div class="card summary-card"><span>Média de receitas/mês</span><strong id="fcAvgIncome" class="text-income">R$ 0,00</strong></div>
+        <div class="card summary-card"><span>Média de despesas/mês</span><strong id="fcAvgExpense" class="text-expense">R$ 0,00</strong></div>
+        <div class="card summary-card summary-card--wide"><span>Quanto sobra por mês, em média</span><strong id="fcAvgNet">R$ 0,00</strong></div>
+      </div>
+
+      <div class="card">
+        <h3>Como seu saldo deve caminhar</h3>
+        <p class="muted">A linha sólida é o que já aconteceu; a tracejada é a projeção pros próximos 6 meses no seu ritmo atual.</p>
+        <canvas id="forecastChart" height="220"></canvas>
+        <p id="forecastNote" class="muted" style="margin-top:10px;"></p>
+      </div>
+    </section>
+
+    <!-- INVESTIMENTOS -->
+    <section class="screen" id="screen-investments">
+      <div class="card">
+        <h3>Simulador de investimentos</h3>
+        <label>Valor inicial (R$)<input type="number" id="invInitial" min="0" step="0.01" value="1000"></label>
+        <label>Aporte mensal (R$)<input type="number" id="invMonthly" min="0" step="0.01" value="100"></label>
+        <label>Período (meses)<input type="number" id="invMonths" min="1" step="1" value="24"></label>
+        <button class="btn btn-primary btn-block" id="invCalcBtn">Simular</button>
+      </div>
+      <div class="card">
+        <canvas id="investChart" height="220"></canvas>
+        <div id="invResultTable" class="invest-table"></div>
+      </div>
+      <div class="card">
+        <h3>Conheça cada opção</h3>
+        <p class="muted small" style="margin-bottom:12px;">Um resumo rápido de como cada investimento funciona, pra você decidir com mais clareza.</p>
+        <div id="invCardsList" class="invest-cards"></div>
+      </div>
+    </section>
+
+    <!-- TRILHA -->
+    <section class="screen" id="screen-learning">
+      <div class="card">
+        <h3>Trilha de aprendizado</h3>
+        <p class="muted">Complete as lições em ordem e desbloqueie a próxima.</p>
+        <div class="trail-progress">
+          <div class="trail-progress__bar"><div class="trail-progress__fill" id="trailProgressFill" style="width:0%"></div></div>
+          <span id="trailProgressLabel" class="muted small">0 de 0 concluídas</span>
+        </div>
+        <div id="learningTrail" class="trail"></div>
+      </div>
+    </section>
+
+    <!-- GLOSSÁRIO -->
+    <section class="screen" id="screen-glossary">
+      <div class="card">
+        <input type="text" id="glossarySearch" placeholder="Buscar termo... (ex: CDI)">
+      </div>
+      <div id="glossaryList" class="glossary-list"></div>
+    </section>
+
+    <!-- MENTORIA -->
+    <section class="screen" id="screen-mentor">
+      <div class="card mentor-card">
+        <div id="mentorMessages" class="mentor-messages"></div>
+        <form id="mentorForm" class="mentor-form">
+          <input type="text" id="mentorInput" placeholder="Pergunte algo sobre suas finanças..." required>
+          <button class="btn btn-primary btn-sm" type="submit">Enviar</button>
+        </form>
+        <p id="mentorNote" class="muted small"></p>
+      </div>
+    </section>
+
+    <!-- FERRAMENTAS (grid) -->
+    <section class="screen" id="screen-tools">
+      <div class="tools-grid" id="toolsGridFull"></div>
+    </section>
+
+    <!-- PERFIL -->
+    <section class="screen" id="screen-profile">
+      <div class="card">
+        <h3 id="profileName">-</h3>
+        <p id="profileEmail" class="muted"></p>
+        <label>Renda média mensal (R$)<input type="number" id="profileIncome" min="0" step="0.01"></label>
+        <button class="btn btn-primary btn-block" id="profileSaveBtn">Salvar</button>
+      </div>
+      <p class="muted small" style="text-align:center;">Desenvolvido por Caetano Pieralisi 2026</p>
+    </section>
+
+    <!-- CONFIGURAÇÕES -->
+    <section class="screen" id="screen-settings">
+      <div class="card">
+        <h3>Ajuda</h3>
+        <button class="btn btn-outline btn-block" id="settingsTutorialBtn">» Ver tutorial novamente</button>
+      </div>
+      <div class="card">
+        <h3>Meus dados</h3>
+        <p class="muted" style="margin-bottom:14px;">Apaga todos os seus lançamentos, sonhos e progresso da trilha. Não afeta outras contas.</p>
+        <button class="btn btn-outline btn-block" id="settingsClearBtn" style="color:var(--expense); border-color:var(--expense);">Apagar todos os meus dados</button>
+      </div>
+      <div class="card">
+        <h3>Sobre</h3>
+        <p class="muted">Finlenz: projeto de educação financeira feito para uma competição estudantil.</p>
+        <p class="muted small" style="margin-top:10px;">Desenvolvido por Caetano Pieralisi 2026</p>
+      </div>
+      <button class="btn btn-primary btn-block" id="settingsLogoutBtn">Sair da conta</button>
+    </section>
+
+  </main>
+
+  <!-- Bottom nav -->
+  <nav class="bottom-nav">
+    <button class="bottom-nav__item is-active" data-goto="home"><span>⌂</span>Início</button>
+    <button class="bottom-nav__item" data-goto="transactions"><span>$</span>Lançar</button>
+    <button class="bottom-nav__item" data-goto="tools"><span>▦</span>Ferramentas</button>
+    <button class="bottom-nav__item" data-goto="profile"><span>○</span>Perfil</button>
+  </nav>
+</div>
+
+<div class="drawer-backdrop" id="drawerBackdrop" hidden></div>
+<aside class="drawer" id="drawer" hidden>
+  <div class="drawer__header">
+    <img src="assets/img/logo.png" alt="Finlenz" class="brand__logo">
+    <button class="icon-btn" id="drawerCloseBtn" aria-label="Fechar menu">✕</button>
+  </div>
+  <nav class="drawer__nav">
+    <button data-goto="profile" class="drawer__item">○ Perfil</button>
+    <button data-goto="settings" class="drawer__item">⚙ Configurações</button>
+    <button id="drawerTutorialBtn" class="drawer__item">» Ver tutorial novamente</button>
+    <button id="drawerLogoutBtn" class="drawer__item drawer__item--danger">⏻ Sair da conta</button>
+  </nav>
+</aside>
+
+<div class="tutorial-overlay" id="tutorialOverlay" hidden>
+  <div class="tutorial-box" id="tutorialBox"></div>
+</div>
+
+<div class="lesson-modal" id="lessonModal" hidden>
+  <div class="lesson-modal__box" id="lessonModalBox"></div>
+</div>
+
+<script type="module" src="assets/js/app.js"></script>
+</body>
+</html>
