@@ -1,7 +1,0 @@
-[
-  { "id": "poupanca", "name": "Poupança", "monthlyRate": 0.005, "risk": "Baixo", "color": "#6B7086" },
-  { "id": "cdb", "name": "CDB (110% CDI)", "monthlyRate": 0.009, "risk": "Baixo", "color": "#2FBF71" },
-  { "id": "tesouro", "name": "Tesouro Selic", "monthlyRate": 0.0085, "risk": "Baixo", "color": "#4A5FA5" },
-  { "id": "fundos", "name": "Fundos multimercado", "monthlyRate": 0.011, "risk": "Médio", "color": "#FF6B4A" },
-  { "id": "acoes", "name": "Renda variável (média histórica)", "monthlyRate": 0.014, "risk": "Alto", "color": "#EF5A6F" }
-]
