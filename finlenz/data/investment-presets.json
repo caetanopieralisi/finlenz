@@ -1,0 +1,82 @@
+[
+  {
+    "id": "poupanca",
+    "name": "Poupança",
+    "monthlyRate": 0.005,
+    "risk": "Baixo",
+    "liquidity": "Imediata",
+    "color": "#8FA391",
+    "detail": "A mais simples e conhecida. Rende pouco, mas o dinheiro fica disponível a qualquer momento e é garantido pelo FGC até o limite legal.",
+    "taxProfile": "isento"
+  },
+  {
+    "id": "cdb",
+    "name": "CDB (110% CDI)",
+    "monthlyRate": 0.009,
+    "risk": "Baixo",
+    "liquidity": "No vencimento ou diária, depende do banco",
+    "color": "#C6FF3D",
+    "detail": "Você empresta dinheiro para o banco e recebe de volta com juros. Também tem cobertura do FGC até o limite legal.",
+    "taxProfile": "regressiva"
+  },
+  {
+    "id": "lci",
+    "name": "LCI/LCA",
+    "monthlyRate": 0.0095,
+    "risk": "Baixo",
+    "liquidity": "No vencimento, geralmente 90 dias ou mais",
+    "color": "#7FD4C1",
+    "detail": "Parecido com o CDB, mas isento de Imposto de Renda para pessoa física. Costuma exigir prazos maiores para resgate.",
+    "taxProfile": "isento"
+  },
+  {
+    "id": "tesouro-selic",
+    "name": "Tesouro Selic",
+    "monthlyRate": 0.0085,
+    "risk": "Baixo",
+    "liquidity": "Alta, venda no mesmo dia",
+    "color": "#4DD9E8",
+    "detail": "Título público que acompanha a taxa básica de juros. Considerado um dos investimentos mais seguros do país.",
+    "taxProfile": "regressiva"
+  },
+  {
+    "id": "tesouro-ipca",
+    "name": "Tesouro IPCA+",
+    "monthlyRate": 0.0092,
+    "risk": "Baixo/Médio",
+    "liquidity": "Média, ideal para prazos mais longos",
+    "color": "#4DA1E8",
+    "detail": "Título público que protege contra a inflação e ainda paga um juro extra. Bom para objetivos de longo prazo.",
+    "taxProfile": "regressiva"
+  },
+  {
+    "id": "fundos",
+    "name": "Fundos multimercado",
+    "monthlyRate": 0.011,
+    "risk": "Médio",
+    "liquidity": "Depende do fundo, geralmente D+1 a D+30",
+    "color": "#FFC94D",
+    "detail": "Um gestor mistura diferentes tipos de investimento buscando mais retorno. Cobra taxa de administração e pode variar bastante.",
+    "taxProfile": "regressiva"
+  },
+  {
+    "id": "fii",
+    "name": "Fundos imobiliários (FIIs)",
+    "monthlyRate": 0.012,
+    "risk": "Médio",
+    "liquidity": "Alta, negociado em bolsa",
+    "color": "#E8A94D",
+    "detail": "Você vira sócio de imóveis ou recebíveis do setor imobiliário e recebe aluguéis mensais. O preço das cotas pode subir e cair.",
+    "taxProfile": "capital-15"
+  },
+  {
+    "id": "acoes",
+    "name": "Renda variável (ações)",
+    "monthlyRate": 0.014,
+    "risk": "Alto",
+    "liquidity": "Alta, negociado em bolsa",
+    "color": "#FF6B5B",
+    "detail": "Você compra uma parte de uma empresa. Pode gerar os melhores retornos no longo prazo, mas os preços oscilam bastante.",
+    "taxProfile": "capital-15"
+  }
+]
