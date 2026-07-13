@@ -17,5 +17,4 @@ export const DEMO_PASSWORD = "finlenzdemo2026";
 export const ADMIN_SECRET_CODE = "lolamiakyra";
 
 export const APP_NAME_DEFAULT = "finlenz";
-export const PRIMARY_COLOR_DEFAULT = "#2B3A67";
-export const ACCENT_COLOR_DEFAULT = "#FF6B4A";
+
