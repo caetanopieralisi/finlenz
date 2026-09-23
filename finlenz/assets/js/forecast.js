@@ -1,6 +1,7 @@
 import { supabase } from "./supabaseClient.js";
 import { state, formatBRL } from "./state.js";
 import { loadAllTransactions } from "./transactions.js";
+import { icon } from "./icons.js";
 
 function hexToRgba(hex, alpha){
   const h = hex.replace("#", "");
@@ -9,13 +10,71 @@ function hexToRgba(hex, alpha){
   return `rgba(${r}, ${g}, ${b}, ${alpha})`;
 }
 
+function shortMonth(d){
+  const m = d.toLocaleDateString("pt-BR", { month: "short" }).replace(".", "");
+  return m.charAt(0).toUpperCase() + m.slice(1);
+}
+
 function monthLabel(key){
   const [y, m] = key.split("-");
-  return new Date(Number(y), Number(m) - 1, 1).toLocaleDateString("pt-BR", { month: "short", year: "2-digit" });
+  return shortMonth(new Date(Number(y), Number(m) - 1, 1));
 }
 
 let chart;
 let saveTimer;
+
+export function areaGradient(c, color){
+  const { chart: ch } = c;
+  const area = ch.chartArea;
+  if (!area) return hexToRgba(color, 0.12);
+  const g = ch.ctx.createLinearGradient(0, area.top, 0, area.bottom);
+  g.addColorStop(0, hexToRgba(color, 0.28));
+  g.addColorStop(1, hexToRgba(color, 0));
+  return g;
+}
+
+function compactBRL(v){
+  const a = Math.abs(v);
+  const sign = v < 0 ? "−" : "";
+  if (a >= 1e6) return `${sign}R$ ${(a / 1e6).toFixed(1).replace(".", ",")} mi`;
+  if (a >= 1e3) return `${sign}R$ ${(a / 1e3).toFixed(a >= 1e4 ? 0 : 1).replace(".", ",")} mil`;
+  return `${sign}R$ ${Math.round(a)}`;
+}
+
+export function chartOptions(extra = {}){
+  const font = { family: getComputedStyle(document.body).fontFamily, size: 11 };
+  return {
+    responsive: true,
+    maintainAspectRatio: false,
+    interaction: { mode: "index", intersect: false },
+    layout: { padding: { top: 6, right: 4 } },
+    plugins: {
+      legend: { display: false },
+      tooltip: {
+        backgroundColor: "rgba(44,44,46,.96)",
+        borderColor: "rgba(255,255,255,.08)", borderWidth: 1,
+        titleColor: "rgba(235,235,245,.62)", bodyColor: "#F5F5F7",
+        titleFont: { ...font, size: 12, weight: "600" }, bodyFont: { ...font, size: 13, weight: "600" },
+        padding: 10, cornerRadius: 10, displayColors: false,
+        filter: (item) => item.raw !== null,
+        callbacks: { label: (item) => `${item.dataset.label}: ${formatBRL(item.raw)}` },
+      },
+      ...(extra.plugins || {}),
+    },
+    scales: {
+      y: {
+        border: { display: false },
+        grid: { color: "rgba(255,255,255,.06)", drawTicks: false },
+        ticks: { color: "rgba(235,235,245,.4)", font, padding: 8, maxTicksLimit: 5, callback: v => compactBRL(v) },
+      },
+      x: {
+        border: { display: false },
+        grid: { display: false },
+        ticks: { color: "rgba(235,235,245,.4)", font, maxRotation: 0, autoSkip: true, maxTicksLimit: 7 },
+      },
+    },
+  };
+}
 
 export async function initForecast(){
   const input = document.getElementById("fcSavings");
@@ -59,7 +118,7 @@ async function renderForecast(){
   document.getElementById("fcAvgExpense").textContent = formatBRL(avgExpense);
   const netEl = document.getElementById("fcAvgNet");
   netEl.textContent = formatBRL(avgNet);
-  netEl.className = avgNet >= 0 ? "text-income" : "text-expense";
+  netEl.className = (avgNet >= 0 ? "text-income" : "text-expense") + " num";
 
   note.textContent = monthKeys.length >= 2
     ? "Estimativa baseada na média mensal dos seus lançamentos registrados."
@@ -84,19 +143,23 @@ async function renderForecast(){
   let proj = baseline;
   for (let i = 1; i <= 6; i++) {
     const d = new Date(today.getFullYear(), today.getMonth() + i, 1);
-    futureLabels.push(d.toLocaleDateString("pt-BR", { month: "short", year: "2-digit" }));
+    futureLabels.push(shortMonth(d));
     proj += avgNet;
     futureCum.push(Math.round(proj));
   }
 
-  const labels = [...histLabels, "hoje", ...futureLabels];
+  const labels = [...histLabels, "Hoje", ...futureLabels];
   const dataHist = [...histCum, baseline, ...new Array(futureLabels.length).fill(null)];
   const dataProj = [...new Array(histLabels.length).fill(null), baseline, ...futureCum];
 
   const style = getComputedStyle(document.documentElement);
   const lime = style.getPropertyValue("--primary").trim() || "#C6FF3D";
-  const textSoft = style.getPropertyValue("--text-soft").trim() || "#8FA391";
-  const border = style.getPropertyValue("--border").trim() || "#232B23";
+
+  const headline = document.getElementById("fcHeadline");
+  if (headline) {
+    headline.textContent = formatBRL(futureCum[futureCum.length - 1]);
+    headline.style.color = avgNet >= 0 ? "" : "#FF6961";
+  }
 
   const ctx = document.getElementById("forecastChart");
   chart?.destroy();
@@ -109,31 +172,35 @@ async function renderForecast(){
           label: "Histórico",
           data: dataHist,
           borderColor: lime,
-          backgroundColor: hexToRgba(lime, 0.12),
+          borderWidth: 2.5,
+          backgroundColor: (c) => areaGradient(c, lime),
           fill: true,
-          tension: 0.3,
-          pointRadius: 3,
+          tension: 0.35,
+          pointRadius: 0,
+          pointHoverRadius: 5,
+          pointHoverBackgroundColor: lime,
+          pointHoverBorderColor: "#1C1C1E",
+          pointHoverBorderWidth: 2,
           spanGaps: false,
         },
         {
           label: "Projeção",
           data: dataProj,
-          borderColor: lime,
-          borderDash: [6, 5],
+          borderColor: hexToRgba(lime, 0.7),
+          borderWidth: 2,
+          borderDash: [5, 5],
           backgroundColor: "transparent",
-          tension: 0.3,
-          pointRadius: 3,
+          tension: 0.35,
+          pointRadius: 0,
+          pointHoverRadius: 5,
+          pointHoverBackgroundColor: lime,
+          pointHoverBorderColor: "#1C1C1E",
+          pointHoverBorderWidth: 2,
           spanGaps: true,
         },
       ],
     },
-    options: {
-      plugins: { legend: { position: "bottom", labels: { color: textSoft, boxWidth: 10, font: { size: 10 } } } },
-      scales: {
-        y: { ticks: { color: textSoft, callback: v => formatBRL(v) }, grid: { color: border } },
-        x: { ticks: { color: textSoft }, grid: { color: border } },
-      },
-    },
+    options: chartOptions(),
   });
 
   renderInsight(baseline, avgNet, monthKeys.length);
@@ -152,15 +219,15 @@ function renderInsight(baseline, avgNet, monthsWithData){
   if (avgNet >= 0) {
     const in6 = baseline + avgNet * 6;
     box.className = "forecast-insight is-good";
-    box.innerHTML = `No ritmo atual, em <strong>6 meses</strong> você deve ter aproximadamente <strong>${formatBRL(in6)}</strong> guardado.`;
+    box.innerHTML = `${icon("trend")}<span>No ritmo atual, em <strong>6 meses</strong> você deve ter aproximadamente <strong>${formatBRL(in6)}</strong> guardado.</span>`;
   } else if (baseline <= 0) {
     box.className = "forecast-insight is-bad";
-    box.innerHTML = `Seus gastos estão maiores que suas receitas e você já está sem margem. Vale rever os maiores gastos antes do próximo mês.`;
+    box.innerHTML = `${icon("info")}<span>Seus gastos estão maiores que suas receitas e você já está sem margem. Vale rever os maiores gastos antes do próximo mês.</span>`;
   } else {
     const monthsToZero = baseline / Math.abs(avgNet);
     box.className = "forecast-insight is-bad";
-    box.innerHTML = monthsToZero <= 6
-      ? `No ritmo atual, seu saldo deve <strong>zerar em ${Math.max(1, Math.round(monthsToZero))} ${monthsToZero < 2 ? "mês" : "meses"}</strong>. Vale ajustar os gastos antes disso acontecer.`
-      : `Você está gastando mais do que ganha por mês, mas sua reserva atual ainda te dá fôlego por um tempo. Vale ficar de olho antes que isso vire hábito.`;
+    box.innerHTML = icon("info") + (monthsToZero <= 6
+      ? `<span>No ritmo atual, seu saldo deve <strong>zerar em ${Math.max(1, Math.round(monthsToZero))} ${monthsToZero < 2 ? "mês" : "meses"}</strong>. Vale ajustar os gastos antes disso acontecer.</span>`
+      : `<span>Você está gastando mais do que ganha por mês, mas sua reserva atual ainda te dá fôlego por um tempo. Vale ficar de olho antes que isso vire hábito.</span>`);
   }
 }

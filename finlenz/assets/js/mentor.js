@@ -26,6 +26,10 @@ export async function initMentor(){
 
   const note = document.getElementById("mentorNote");
   note.textContent = apiKey ? "" : "A mentoria ainda não foi configurada pelo administrador do app.";
+  if (!apiKey) {
+    document.getElementById("mentorInput").disabled = true;
+    document.querySelector("#mentorForm .send-btn").disabled = true;
+  }
 
   await loadHistory();
   renderMessages();
@@ -70,7 +74,9 @@ async function pushMessage(role, content, skipSave = false){
 
 function renderMessages(){
   const el = document.getElementById("mentorMessages");
-  el.innerHTML = history.map(m => `<div class="mentor-msg ${m.role === "user" ? "user" : "assistant"}">${escapeHtml(m.content)}</div>`).join("");
+  el.innerHTML = history.map(m => m.content === "…"
+    ? `<div class="mentor-msg assistant is-typing" aria-label="Digitando"><i></i><i></i><i></i></div>`
+    : `<div class="mentor-msg ${m.role === "user" ? "user" : "assistant"}">${escapeHtml(m.content)}</div>`).join("");
   el.scrollTop = el.scrollHeight;
 }
 
