@@ -1,19 +1,26 @@
 import { supabase } from "./supabaseClient.js";
-import { state } from "./state.js";
+import { state, TOOLS } from "./state.js";
+import { icon } from "./icons.js";
 
 const MASCOT_NAME = "Fin";
 
+const T = Object.fromEntries(TOOLS.map(t => [t.id, t]));
 const STEPS = [
   { welcome: true, title: "Oi, eu sou o Fin!", desc: "Vou te mostrar rapidinho como o Finlenz funciona. Bora dar uma volta pelo app?" },
-  { icon: "⌂", title: "Início", desc: "Seu saldo do mês e os últimos lançamentos, tudo na primeira tela." },
-  { icon: "$", title: "Lançamentos", desc: "Registre o que entra e sai, separado por categoria." },
-  { icon: "◷", title: "Valor-hora", desc: "Veja quantas horas de trabalho uma compra custa antes de decidir." },
-  { icon: "◎", title: "Custo dos sonhos", desc: "Descubra o quanto um gasto do momento atrasa o sonho que você mais quer." },
-  { icon: "↗", title: "Previsão", desc: "Acompanhe pra onde seu dinheiro caminha nos próximos meses." },
-  { icon: "▲", title: "Investimentos", desc: "Compare várias formas de investir simulando valores." },
-  { icon: "▣", title: "Trilha", desc: "Aprenda finanças em lições curtas, no seu ritmo." },
-  { icon: "▤", title: "Glossário", desc: "Consulte termos financeiros explicados de forma simples." },
-  { icon: "◈", title: "Mentoria", desc: "Tire dúvidas sobre sua vida financeira quando precisar." },
+  { icon: "house", tint: "lime", title: "Início", desc: "Seu saldo do mês, para onde foi o dinheiro e os últimos lançamentos, tudo na primeira tela." },
+  { icon: "plusCircle", tint: "gray", title: "Lançamentos", desc: "Registre o que entra e sai, separado por categoria." },
+  ...["hourvalue", "dreams", "forecast", "investments", "learning", "glossary", "mentor"].map(id => ({
+    icon: T[id].icon, tint: T[id].tint, title: T[id].title,
+    desc: {
+      hourvalue: "Veja quantas horas de trabalho uma compra custa antes de decidir.",
+      dreams: "Descubra o quanto um gasto do momento atrasa o sonho que você mais quer.",
+      forecast: "Acompanhe para onde seu dinheiro caminha nos próximos meses.",
+      investments: "Compare várias formas de investir simulando valores.",
+      learning: "Aprenda finanças em lições curtas, no seu ritmo.",
+      glossary: "Consulte termos financeiros explicados de forma simples.",
+      mentor: "Tire dúvidas sobre sua vida financeira quando precisar.",
+    }[id],
+  })),
 ];
 
 let step = 0;
@@ -33,25 +40,27 @@ function render(isFirstTime){
   const s = STEPS[step];
   const isLast = step === STEPS.length - 1;
 
-  const mascot = `
-    <div class="tutorial-mascot ${s.welcome ? "tutorial-mascot--big" : ""}">
+  const mascot = (size) => `
+    <div class="tutorial-mascot ${size}">
       <span class="tutorial-mascot__eye tutorial-mascot__eye--l"></span>
       <span class="tutorial-mascot__eye tutorial-mascot__eye--r"></span>
       <span class="tutorial-mascot__mouth"></span>
-    </div>
-    <p class="tutorial-mascot__name">${MASCOT_NAME}</p>`;
+    </div>`;
 
   box.innerHTML = `
-    ${mascot}
-    ${!s.welcome ? `<div class="tutorial-icon">${s.icon}</div>` : ""}
+    ${s.welcome
+      ? `${mascot("tutorial-mascot--big")}<p class="tutorial-mascot__name">${MASCOT_NAME}</p>`
+      : `<div class="tutorial-step-head">${mascot("tutorial-mascot--sm")}${MASCOT_NAME} · ${step} de ${STEPS.length - 1}</div>
+         <div class="tutorial-icon"><span class="tile tile--${s.tint}">${icon(s.icon)}</span></div>`}
     <h3>${s.title}</h3>
     <p class="muted">${s.desc}</p>
     <div class="tutorial-dots">${STEPS.map((_, i) => `<span class="tutorial-dot ${i === step ? "is-active" : ""}"></span>`).join("")}</div>
     <div class="tutorial-actions">
-      ${isFirstTime ? `<button class="btn btn-outline btn-sm" id="tutSkip">Pular</button>` : `<span></span>`}
-      <button class="btn btn-primary" id="tutNext">${isLast ? "Começar" : "Próximo"}</button>
+      ${isFirstTime && !isLast ? `<button class="btn btn-outline" id="tutSkip">Pular</button>` : step > 0 ? `<button class="btn btn-outline" id="tutBack">Voltar</button>` : `<button class="btn btn-outline" id="tutSkip">Fechar</button>`}
+      <button class="btn btn-primary" id="tutNext">${isLast ? "Começar" : step === 0 ? "Vamos lá" : "Próximo"}</button>
     </div>`;
 
+  document.getElementById("tutBack")?.addEventListener("click", () => { step--; render(isFirstTime); });
   document.getElementById("tutNext").addEventListener("click", () => {
     if (isLast) finish();
     else { step++; render(isFirstTime); }

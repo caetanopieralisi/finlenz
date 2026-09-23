@@ -30,10 +30,10 @@ export function initHourValue(){
     let dayText = "";
     if (days >= 1) {
       dayText = `${days} dia${days > 1 ? "s" : ""}`;
-      if (remainderHours >= 0.1) dayText += ` e ${remainderHours.toFixed(1)}h`;
+      if (remainderHours >= 0.1) dayText += ` e ${remainderHours.toFixed(1).replace(".", ",")}h`;
       dayText += " de trabalho";
     } else {
-      dayText = `${hoursNeeded.toFixed(1)} horas de trabalho`;
+      dayText = `${hoursNeeded.toFixed(1).replace(".", ",")} horas de trabalho`;
     }
 
     let tier, comment;
@@ -46,7 +46,7 @@ export function initHourValue(){
     box.hidden = false;
     box.className = `result-box hv-result ${tier}`;
     box.innerHTML = `
-      <div class="hv-result__big">${hoursNeeded.toFixed(1)}<span>h</span></div>
+      <div class="hv-result__big">${hoursNeeded.toFixed(1).replace(".", ",")}<span>h</span></div>
       <p class="hv-result__sub">≈ ${dayText}</p>
       <div class="hv-progress"><div class="hv-progress__fill" style="width:${barPct}%"></div></div>
       <p class="hv-progress__label">${barPct.toFixed(0)}% da sua semana de trabalho</p>

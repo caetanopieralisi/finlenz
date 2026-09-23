@@ -2,62 +2,68 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-<title>Entrar - Finlenz</title>
-<link rel="icon" href="data:,">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#000000">
+<title>Entrar · Finlenz</title>
+<link rel="icon" type="image/png" href="assets/img/logo.png">
+<link rel="apple-touch-icon" href="assets/img/logo.png">
 <link rel="stylesheet" href="assets/css/style.css">
 <link rel="stylesheet" href="assets/css/auth.css">
 </head>
 <body class="auth-body">
 
 <div class="auth-wrap">
-  <a href="index.html" class="brand brand--center">
-    <img src="assets/img/logo.png" alt="Finlenz" class="brand__logo">
+  <a href="index.html" class="auth-brand" aria-label="Voltar para a página inicial">
+    <img src="assets/img/logo.png" alt="Finlenz" class="auth-brand__logo">
   </a>
+  <h1 class="auth-title" id="authTitle">Entre no Finlenz</h1>
+  <p class="auth-sub" id="authSub">Seu dinheiro, com lentes mais claras.</p>
 
-  <div class="card auth-card">
-    <div class="auth-tabs">
-      <button class="auth-tab is-active" data-tab="login">Entrar</button>
-      <button class="auth-tab" data-tab="signup">Criar conta</button>
+  <div class="auth-card">
+    <div class="auth-tabs" role="tablist">
+      <span class="auth-tabs__thumb" aria-hidden="true"></span>
+      <button class="auth-tab is-active" data-tab="login" role="tab">Entrar</button>
+      <button class="auth-tab" data-tab="signup" role="tab">Criar conta</button>
     </div>
 
     <form id="loginForm" class="auth-form">
-      <label>E-mail
+      <label class="field"><span>E-mail</span>
         <input type="email" id="loginEmail" required placeholder="voce@email.com" autocomplete="email">
       </label>
-      <label>Senha
-        <input type="password" id="loginPassword" required placeholder="••••••••" autocomplete="current-password">
+      <label class="field"><span>Senha</span>
+        <input type="password" id="loginPassword" required placeholder="Sua senha" autocomplete="current-password">
       </label>
-      <p id="loginError" class="auth-error"></p>
+      <p id="loginError" class="auth-error" role="alert"></p>
       <button type="submit" class="btn btn-primary btn-block">Entrar</button>
     </form>
 
     <form id="signupForm" class="auth-form" hidden>
-      <label>Nome
-        <input type="text" id="signupName" required placeholder="Como podemos te chamar?">
+      <label class="field"><span>Nome</span>
+        <input type="text" id="signupName" required placeholder="Como podemos te chamar?" autocomplete="given-name">
       </label>
-      <label>E-mail
-        <input type="email" id="signupEmail" required placeholder="voce@email.com">
+      <label class="field"><span>E-mail</span>
+        <input type="email" id="signupEmail" required placeholder="voce@email.com" autocomplete="email">
       </label>
-      <label>Senha
-        <input type="password" id="signupPassword" required minlength="6" placeholder="Mínimo 6 caracteres">
+      <label class="field"><span>Senha</span>
+        <input type="password" id="signupPassword" required minlength="6" placeholder="Mínimo 6 caracteres" autocomplete="new-password">
       </label>
-      <label>Renda média mensal (opcional)
-        <input type="number" id="signupIncome" placeholder="Ex: 1800" min="0" step="0.01">
+      <label class="field"><span>Renda média mensal <em>(opcional)</em></span>
+        <input type="number" id="signupIncome" placeholder="Ex: 1800" min="0" step="0.01" inputmode="decimal">
       </label>
-      <p id="signupError" class="auth-error"></p>
+      <p id="signupError" class="auth-error" role="alert"></p>
       <button type="submit" class="btn btn-primary btn-block">Criar minha conta</button>
     </form>
 
     <div class="auth-divider"><span>ou</span></div>
 
-    <button id="demoBtn" class="btn btn-outline btn-block">» Iniciar conta demo</button>
-    <p id="demoError" class="auth-error" style="text-align:center;margin-top:8px"></p>
-    <p class="auth-demo-note">A conta demo já vem com dados de exemplo. Prefira ela para testar o APP ou crie a sua própria conta para usar seus dados :) </p>
+    <button id="demoBtn" class="btn btn-outline btn-block">Explorar a conta demo</button>
+    <p id="demoError" class="auth-error" style="text-align:center;margin-top:10px" role="alert"></p>
+    <p class="auth-demo-note">A conta demo já vem com dados de exemplo e volta ao estado original a cada acesso. Para usar seus próprios dados, crie sua conta.</p>
   </div>
+
+  <p class="auth-foot">Desenvolvido por Caetano Pieralisi · 2026</p>
 </div>
 
-<script type="module" src="assets/js/theme.js"></script>
 <script type="module" src="assets/js/auth.js"></script>
 </body>
 </html>

@@ -2,25 +2,29 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
-<title>Finlenz - Enxergue seu dinheiro com clareza</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#000000">
+<title>Finlenz · Enxergue seu dinheiro com clareza</title>
 <meta name="description" content="Finlenz é o app que ensina educação financeira na prática e ajuda você a organizar suas receitas, despesas e sonhos.">
-<link rel="icon" href="data:,">
+<link rel="icon" type="image/png" href="assets/img/logo.png">
+<link rel="apple-touch-icon" href="assets/img/logo.png">
 <link rel="stylesheet" href="assets/css/style.css">
+<link rel="stylesheet" href="assets/css/app.css">
 <link rel="stylesheet" href="assets/css/landing.css">
 </head>
-<body>
+<body class="lp">
 
 <header class="lp-header">
   <div class="container lp-header__inner">
-    <div class="brand">
-      <img src="assets/img/logo.png" alt="Finlenz" class="brand__logo">
-    </div>
+    <a href="index.html" class="brand" aria-label="Finlenz, início">
+      <img src="assets/img/logo.png" alt="" class="brand__logo">
+      <span class="brand__word">Finlenz</span>
+    </a>
     <nav class="lp-nav">
-      <a href="#proposito">Nosso Propósito</a>
+      <a href="#proposito">Propósito</a>
       <a href="#recursos">Recursos</a>
       <a href="#como-funciona">Como funciona</a>
-      <a href="login.html" class="btn btn-outline btn-sm">Entrar</a>
+      <a href="login.html" class="btn btn-sm btn-pill btn-outline">Entrar</a>
     </nav>
   </div>
 </header>
@@ -29,96 +33,129 @@
   <!-- HERO -->
   <section class="hero">
     <div class="container hero__inner">
-      <div class="hero__text">
-        <h1>Seu dinheiro,<br>com <span class="highlight">lentes</span> mais claras.</h1>
-        <p class="hero__lead">
-          Sabe aquela sensação de olhar o saldo e pensar: "gastei tudo isso e nem vi para onde foi"? Se essa é a sua realidade, o Finlenz é para você. Nós ajudamos você a enxergar o custo real das coisas antes de comprar.
-        </p>
-        <div class="hero__cta">
-          <a href="login.html?mode=signup" class="btn btn-primary">Criar minha conta (É grátis :)</a>
-          <a href="login.html?demo=1" class="btn btn-outline">Testar conta demo</a>
-        </div>
-        <p class="hero__note" style="margin-top: 1.5rem; font-size: 0.95rem; opacity: 0.9; line-height: 1.5;">
-          <strong>Nota dos criadores:</strong> No ano passado, fomos ao MIT e a Harvard. Vimos de perto a realidade e a mentalidade das pessoas de lá e decidimos criar algo nesse sentido para aplicar na prática.
-        </p>
+      <p class="hero__eyebrow">Educação financeira na prática</p>
+      <h1 class="hero__title">Seu dinheiro,<br>com <span class="highlight">lentes</span> mais claras.</h1>
+      <p class="hero__lead">
+        Sabe aquela sensação de olhar o saldo e pensar: “gastei tudo isso e nem vi para onde foi”?
+        O Finlenz ajuda você a enxergar o custo real das coisas antes de comprar.
+      </p>
+      <div class="hero__cta">
+        <a href="login.html?mode=signup" class="btn btn-primary btn-pill">Criar minha conta grátis</a>
+        <a href="login.html?demo=1" class="link-arrow">Testar a conta demo <i data-icon="chevronRight"></i></a>
       </div>
-      <div class="hero__art">
-        <div class="phone-mock">
-          <div class="phone-mock__top">
-            <span>Saldo do mês</span>
-            <strong>R$ 1.284,90</strong>
+    </div>
+
+    <div class="hero__stage" aria-hidden="true">
+      <div class="device">
+        <div class="device__screen">
+          <div class="device__status"><span>9:41</span><span class="device__island"></span><span class="device__icons"></span></div>
+          <p class="mock-eyebrow">Quarta-feira, 23 de setembro</p>
+          <p class="mock-title">Boa tarde, Ana</p>
+          <div class="hero-card mock-hero">
+            <span class="hero-card__label">Saldo de setembro</span>
+            <strong class="hero-card__value num">R$ 1.284,90</strong>
+            <div class="hero-card__split">
+              <div class="flow"><span class="flow__icon flow__icon--in"><i data-icon="arrowDown"></i></span><span class="flow__text"><small>Entrou</small><strong>R$ 1.800</strong></span></div>
+              <div class="flow"><span class="flow__icon flow__icon--out"><i data-icon="arrowUp"></i></span><span class="flow__text"><small>Saiu</small><strong>R$ 515</strong></span></div>
+            </div>
           </div>
-          <div class="phone-mock__row">
-            <span class="dot dot--in"></span> Estágio · <b>+R$ 1.800</b>
-          </div>
-          <div class="phone-mock__row">
-            <span class="dot dot--out"></span> iFood · <b>-R$ 46,90</b>
-          </div>
-          <div class="phone-mock__row">
-            <span class="dot dot--out"></span> Tênis novo · <b>-R$ 320,00</b>
-          </div>
-          <div class="phone-mock__jar">
-            <span>Sonho: Intercâmbio</span>
-            <div class="jar-bar"><div class="jar-bar__fill" style="width:38%"></div></div>
-            <small>38% · atrasado em 6 dias por causa do tênis</small>
-          </div>
+          <ul class="list mock-list">
+            <li class="tx"><span class="tile tile--purple"><i data-icon="fun"></i></span><span class="tx__body"><span class="tx__title">Tênis novo</span><span class="tx__meta">Lazer · Hoje</span></span><span class="tx__amount out">−R$ 320,00</span></li>
+            <li class="tx"><span class="tile tile--orange"><i data-icon="food"></i></span><span class="tx__body"><span class="tx__title">iFood</span><span class="tx__meta">Alimentação · Ontem</span></span><span class="tx__amount out">−R$ 46,90</span></li>
+            <li class="tx"><span class="tile tile--green"><i data-icon="cash"></i></span><span class="tx__body"><span class="tx__title">Estágio</span><span class="tx__meta">Renda · 5 de set.</span></span><span class="tx__amount in">+R$ 1.800,00</span></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="float-card float-card--left">
+        <span class="tile tile--pink tile--sm"><i data-icon="target"></i></span>
+        <div>
+          <small>Sonho: Intercâmbio</small>
+          <b>+6 dias de atraso</b>
+          <span class="float-card__sub">por causa do tênis novo</span>
+        </div>
+      </div>
+      <div class="float-card float-card--right">
+        <span class="tile tile--orange tile--sm"><i data-icon="clock"></i></span>
+        <div>
+          <small>Valor-hora</small>
+          <b>30,9 h de trabalho</b>
+          <span class="float-card__sub">para pagar R$ 320</span>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- NOVO BLOCO: MUDANÇA DE MENTALIDADE -->
-  <section id="proposito" class="section section--alt">
-    <div class="container">
-      <div style="text-align: center; max-width: 800px; margin: 0 auto;">
-        <h2 class="section__title">Educação financeira é um hábito</h2>
-        <p class="section__lead" style="font-size: 1.2rem; margin-bottom: 1rem; color: #333; font-weight: 500;">
-          Nós não somos apenas mais um aplicativo de controle de gastos.
-        </p>
-        <p class="section__lead" style="font-size: 1.1rem; line-height: 1.7; color: #555;">
-          O objetivo do Finlenz é ensinar educação financeira na prática. Nós mostramos exatamente para onde o seu dinheiro está indo no dia a dia para gerar uma verdadeira mudança de mentalidade. É sobre entender os seus hábitos hoje para conseguir financiar os seus sonhos amanhã.
-        </p>
-      </div>
+  <!-- PROPÓSITO -->
+  <section id="proposito" class="section statement">
+    <div class="container statement__inner reveal">
+      <p class="section__eyebrow">Nosso propósito</p>
+      <h2 class="statement__title">Educação financeira é um hábito.</h2>
+      <p class="statement__text">
+        Não somos só mais um app de controle de gastos. <span>Mostramos exatamente para onde o seu dinheiro vai
+        no dia a dia, para gerar uma mudança real de mentalidade: entender seus hábitos hoje para financiar seus sonhos amanhã.</span>
+      </p>
     </div>
   </section>
 
   <!-- RECURSOS -->
   <section id="recursos" class="section">
     <div class="container">
-      <h2 class="section__title">Tudo o que você precisa para decidir melhor</h2>
-      <p class="section__lead">Ferramentas focadas em ajudar você a gastar com consciência, sem complicações.</p>
+      <div class="section__head reveal">
+        <p class="section__eyebrow">Recursos</p>
+        <h2 class="section__title">Tudo o que você precisa para decidir melhor.</h2>
+        <p class="section__lead">Ferramentas focadas em gastar com consciência, sem planilha e sem complicação.</p>
+      </div>
 
-      <div class="grid-features">
-        <div class="feature-card">
-          <div class="feature-card__icon">◷</div>
-          <h3>Valor em horas</h3>
-          <p>Descubra quantas horas de trabalho uma compra realmente custa antes de gastar o seu dinheiro.</p>
-        </div>
-        <div class="feature-card">
-          <div class="feature-card__icon">◎</div>
+      <div class="bento">
+        <article class="reveal bento__item bento__item--wide">
+          <div class="bento__text">
+            <span class="tile tile--orange"><i data-icon="clock"></i></span>
+            <h3>Valor em horas</h3>
+            <p>Descubra quantas horas de trabalho uma compra realmente custa antes de gastar o seu dinheiro.</p>
+          </div>
+          <div class="bento__visual bento-hours">
+            <strong>30,9<span>h</span></strong>
+            <div class="hv-progress"><div class="hv-progress__fill" style="width:77%"></div></div>
+            <small>77% da sua semana de trabalho</small>
+          </div>
+        </article>
+
+        <article class="reveal bento__item">
+          <span class="tile tile--pink"><i data-icon="target"></i></span>
           <h3>Custo dos sonhos</h3>
-          <p>Veja com clareza em quanto tempo um gasto por impulso pode atrasar o seu maior objetivo.</p>
-        </div>
-        <div class="feature-card">
-          <div class="feature-card__icon">$</div>
-          <h3>Controle simplificado</h3>
-          <p>Registre receitas e despesas de forma organizada, em segundos, sem planilhas complexas.</p>
-        </div>
-        <div class="feature-card">
-          <div class="feature-card__icon">▲</div>
+          <p>Veja em quanto tempo um gasto por impulso atrasa o seu maior objetivo.</p>
+        </article>
+
+        <article class="reveal bento__item">
+          <span class="tile tile--gray"><i data-icon="wallet"></i></span>
+          <h3>Controle simples</h3>
+          <p>Registre receitas e despesas por categoria em segundos.</p>
+        </article>
+
+        <article class="reveal bento__item">
+          <span class="tile tile--blue"><i data-icon="bars"></i></span>
           <h3>Simulador de investimentos</h3>
-          <p>Compare Poupança, CDB, Tesouro Direto e FIIs com números reais e fáceis de entender.</p>
-        </div>
-        <div class="feature-card">
-          <div class="feature-card__icon">▣</div>
+          <p>Compare Poupança, CDB, Tesouro Direto e FIIs com números fáceis de entender.</p>
+        </article>
+
+        <article class="reveal bento__item">
+          <span class="tile tile--indigo"><i data-icon="book"></i></span>
           <h3>Trilha de aprendizado</h3>
-          <p>Lições curtas e objetivas para você entender de finanças e investimentos na prática.</p>
-        </div>
-        <div class="feature-card">
-          <div class="feature-card__icon">◈</div>
-          <h3>Mentoria Inteligente</h3>
-          <p>Tire dúvidas sobre a sua vida financeira e receba orientações personalizadas para o seu momento.</p>
-        </div>
+          <p>Lições curtas e objetivas para entender finanças na prática.</p>
+        </article>
+
+        <article class="reveal bento__item bento__item--wide">
+          <div class="bento__text">
+            <span class="tile tile--purple"><i data-icon="bubble"></i></span>
+            <h3>Mentoria inteligente</h3>
+            <p>Tire dúvidas sobre a sua vida financeira e receba orientações baseadas nos seus próprios números.</p>
+          </div>
+          <div class="bento__visual bento-chat">
+            <div class="mentor-msg user">Tô gastando muito com iFood?</div>
+            <div class="mentor-msg assistant">Esse mês foram R$ 46,90. O que pesou mesmo foi o tênis: ele atrasa seu intercâmbio em 6 dias.</div>
+          </div>
+        </article>
       </div>
     </div>
   </section>
@@ -126,41 +163,71 @@
   <!-- COMO FUNCIONA -->
   <section id="como-funciona" class="section section--alt">
     <div class="container">
-      <h2 class="section__title">Como funciona</h2>
-      <div class="steps">
-        <div class="step">
+      <div class="section__head reveal">
+        <p class="section__eyebrow">Como funciona</p>
+        <h2 class="section__title">Três passos. Nenhuma planilha.</h2>
+      </div>
+      <ol class="steps">
+        <li class="step reveal">
           <span class="step__num">1</span>
           <h4>Crie sua conta</h4>
-          <p>O processo é rápido e simples. Se preferir, você pode testar as ferramentas agora com a conta demo.</p>
-        </div>
-        <div class="step">
+          <p>Rápido e simples. Se preferir, teste as ferramentas agora mesmo com a conta demo.</p>
+        </li>
+        <li class="step reveal">
           <span class="step__num">2</span>
           <h4>Registre sua realidade</h4>
-          <p>Adicione sua renda, seus gastos fixos e os sonhos que você está planejando realizar.</p>
-        </div>
-        <div class="step">
+          <p>Adicione sua renda, seus gastos fixos e os sonhos que você está planejando.</p>
+        </li>
+        <li class="step reveal">
           <span class="step__num">3</span>
-          <h4>Tome decisões com clareza</h4>
-          <p>Utilize as ferramentas do Finlenz antes de cada compra importante para entender o impacto no seu orçamento.</p>
-        </div>
-      </div>
+          <h4>Decida com clareza</h4>
+          <p>Use o Finlenz antes de cada compra importante para ver o impacto no seu orçamento.</p>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- NOTA -->
+  <section class="section note">
+    <div class="container">
+      <figure class="note__card reveal">
+        <blockquote>No ano passado, fomos ao MIT e a Harvard. Vimos de perto a realidade e a mentalidade das pessoas de lá e decidimos criar algo nesse sentido para aplicar na prática.</blockquote>
+        <figcaption>Nota dos criadores</figcaption>
+      </figure>
     </div>
   </section>
 
   <section class="cta-final">
     <div class="container cta-final__inner">
+      <img src="assets/img/logo.png" alt="" class="cta-final__logo">
       <h2>Pronto para mudar sua mentalidade financeira?</h2>
-      <a href="login.html?mode=signup" class="btn btn-primary">Começar agora (é gratuito)</a>
+      <div class="hero__cta">
+        <a href="login.html?mode=signup" class="btn btn-primary btn-pill">Começar agora, é grátis</a>
+        <a href="login.html?demo=1" class="link-arrow">Ver a demo <i data-icon="chevronRight"></i></a>
+      </div>
     </div>
   </section>
 </main>
 
 <footer class="lp-footer">
   <div class="container lp-footer__inner">
+    <span>Finlenz · Tecnologia e educação financeira</span>
     <span>Desenvolvido por Caetano Pieralisi, 2026</span>
   </div>
 </footer>
 
-<script src="assets/js/theme.js" type="module"></script>
+<script>document.documentElement.classList.add("js");</script>
+<script type="module">
+  import { hydrateIcons } from "./assets/js/icons.js";
+  hydrateIcons();
+  const header = document.querySelector(".lp-header");
+  const onScroll = () => header.classList.toggle("is-scrolled", scrollY > 10);
+  addEventListener("scroll", onScroll, { passive: true }); onScroll();
+  // revela seções ao rolar
+  const io = new IntersectionObserver((entries) => entries.forEach(e => {
+    if (e.isIntersecting) { e.target.classList.add("is-in"); io.unobserve(e.target); }
+  }), { threshold: 0.15 });
+  document.querySelectorAll(".reveal").forEach(el => io.observe(el));
+</script>
 </body>
 </html>

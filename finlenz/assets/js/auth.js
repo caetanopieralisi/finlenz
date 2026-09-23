@@ -10,6 +10,11 @@ function setTab(tab){
   tabs.forEach(t => t.classList.toggle("is-active", t.dataset.tab === tab));
   loginForm.hidden = tab !== "login";
   signupForm.hidden = tab !== "signup";
+  document.querySelector(".auth-tabs")?.setAttribute("data-active", tab);
+  const title = document.getElementById("authTitle");
+  const sub = document.getElementById("authSub");
+  if (title) title.textContent = tab === "signup" ? "Crie sua conta" : "Entre no Finlenz";
+  if (sub) sub.textContent = tab === "signup" ? "Leva menos de um minuto e é grátis." : "Seu dinheiro, com lentes mais claras.";
 }
 tabs.forEach(t => t.addEventListener("click", () => setTab(t.dataset.tab)));
 
@@ -114,6 +119,7 @@ async function signInDemoWithRetry(){
   return { ok: false, error: last };
 }
 
+const DEMO_LABEL = document.getElementById("demoBtn").textContent;
 document.getElementById("demoBtn").addEventListener("click", async () => {
   if (demoBusy) return; // evita duplo clique disparando vários logins
   demoBusy = true;
@@ -143,7 +149,7 @@ document.getElementById("demoBtn").addEventListener("click", async () => {
       }
       if (errEl) errEl.textContent = msg; else alert(msg);
       btn.disabled = false;
-      btn.textContent = "» Iniciar conta demo";
+      btn.textContent = DEMO_LABEL;
       demoBusy = false;
       return;
     }
@@ -158,6 +164,9 @@ document.getElementById("demoBtn").addEventListener("click", async () => {
   }
   await goToAppWhenSessionReady();
 });
+
+// Link "Testar conta demo" da página inicial entra direto.
+if (params.get("demo") === "1") document.getElementById("demoBtn").click();
 
 // ---------- Acesso escondido ao painel admin ----------
 // Digite o código em qualquer lugar desta tela (não precisa estar em um campo).

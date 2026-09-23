@@ -1,5 +1,7 @@
 import { supabase } from "./supabaseClient.js";
 import { state } from "./state.js";
+import { icon } from "./icons.js";
+import { escapeHtml } from "./ui.js";
 
 let lessons = [];
 let completedIds = new Set();
@@ -14,6 +16,9 @@ export async function initLearning(){
   document.getElementById("lessonModal").addEventListener("click", (e) => {
     if (e.target.id === "lessonModal") closeModal();
   });
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && !document.getElementById("lessonModal").hidden) closeModal();
+  });
 }
 
 async function loadProgress(){
@@ -24,19 +29,28 @@ async function loadProgress(){
 function renderTrail(){
   const fill = document.getElementById("trailProgressFill");
   const label = document.getElementById("trailProgressLabel");
+  const ring = document.getElementById("trailRing");
   const pct = lessons.length ? Math.round((completedIds.size / lessons.length) * 100) : 0;
   fill.style.width = `${pct}%`;
-  label.textContent = `${completedIds.size} de ${lessons.length} concluídas`;
+  ring?.style.setProperty("--p", pct);
+  label.textContent = completedIds.size === lessons.length && lessons.length
+    ? "Trilha completa. Mandou bem!"
+    : `${completedIds.size} de ${lessons.length} lições concluídas`;
 
+  let nextMarked = false;
   const el = document.getElementById("learningTrail");
   el.innerHTML = lessons.map((lesson, i) => {
     const done = completedIds.has(lesson.id);
     const locked = !done && i > 0 && !completedIds.has(lessons[i - 1].id);
-    const cls = done ? "is-done" : locked ? "is-locked" : "";
+    const isNext = !done && !locked && !nextMarked;
+    if (isNext) nextMarked = true;
+    const cls = done ? "is-done" : locked ? "is-locked" : isNext ? "is-next" : "";
+    const status = done ? "Concluída" : locked ? "Conclua a anterior para liberar" : "Toque para começar";
     return `
       <button class="trail-item ${cls}" data-lesson="${lesson.id}" ${locked ? "disabled" : ""}>
-        <span class="trail-item__badge">${done ? "✓" : i + 1}</span>
-        <span class="trail-item__body"><b>${lesson.title}</b><small>${done ? "Concluída" : locked ? "Bloqueada" : "Toque para começar"}</small></span>
+        <span class="trail-item__badge">${done ? icon("check") : locked ? icon("lock") : i + 1}</span>
+        <span class="trail-item__body"><b>${escapeHtml(lesson.title)}</b><small>${status}</small></span>
+        ${locked ? "" : icon("chevronRight", "chev")}
       </button>`;
   }).join("");
 
@@ -56,13 +70,14 @@ function renderLessonStep(revealed){
   const box = document.getElementById("lessonModalBox");
   const lesson = currentLesson;
 
+  const idx = lessons.findIndex(l => l.id === lesson.id);
   box.innerHTML = `
-    <span class="badge badge-income">Lição</span>
-    <h3 style="margin-top:10px;">${lesson.title}</h3>
-    <p class="muted" style="margin:12px 0;">${lesson.content}</p>
-    <p style="font-weight:700; margin-bottom:10px;">${lesson.question}</p>
+    <span class="badge badge-neutral">Lição ${idx + 1} de ${lessons.length}</span>
+    <h3>${lesson.title}</h3>
+    <p class="lesson-content">${lesson.content}</p>
+    <p class="lesson-question">${lesson.question}</p>
     <div id="quizOpts"></div>
-    <div id="quizActions" style="margin-top:12px; display:flex; flex-direction:column; gap:8px;"></div>`;
+    <div id="quizActions" style="margin-top:14px; display:flex; flex-direction:column; gap:10px;"></div>`;
 
   const optsEl = box.querySelector("#quizOpts");
   lesson.options.forEach((opt, idx) => {
@@ -93,24 +108,18 @@ function renderLessonStep(revealed){
     actions.appendChild(confirmBtn);
 
     const closeBtn = document.createElement("button");
-    closeBtn.className = "btn btn-outline btn-block";
+    closeBtn.className = "btn btn-ghost btn-block";
     closeBtn.textContent = "Fechar";
     closeBtn.addEventListener("click", closeModal);
     actions.appendChild(closeBtn);
   } else {
     const isCorrect = selectedOption === lesson.correct;
-    const msg = document.createElement("p");
-    msg.className = "muted";
-    msg.style.marginBottom = "4px";
-    msg.textContent = isCorrect ? "Boa! Resposta certa." : "Não foi dessa vez. A resposta certa está destacada acima.";
+    const msg = document.createElement("div");
+    msg.className = `lesson-feedback ${isCorrect ? "is-good" : "is-bad"}`;
+    msg.innerHTML = `${icon(isCorrect ? "check" : "info")}<div><b></b><span></span></div>`;
+    msg.querySelector("b").textContent = isCorrect ? "Boa! Resposta certa." : "Não foi dessa vez.";
+    msg.querySelector("span").textContent = lesson.explanation || (isCorrect ? "" : "A resposta certa está destacada acima.");
     actions.appendChild(msg);
-
-    if (lesson.explanation) {
-      const exp = document.createElement("p");
-      exp.className = "muted small";
-      exp.textContent = lesson.explanation;
-      actions.appendChild(exp);
-    }
 
     if (!isCorrect) {
       const retryBtn = document.createElement("button");
@@ -122,9 +131,9 @@ function renderLessonStep(revealed){
 
     const nextLesson = lessons[lessons.findIndex(l => l.id === lesson.id) + 1];
     const nextBtn = document.createElement("button");
-    nextBtn.className = "btn btn-outline btn-block";
+    nextBtn.className = isCorrect ? "btn btn-primary btn-block" : "btn btn-outline btn-block";
     if (isCorrect && nextLesson) {
-      nextBtn.textContent = "Próxima lição »";
+      nextBtn.textContent = "Próxima lição";
       nextBtn.addEventListener("click", () => openLesson(nextLesson.id));
     } else if (isCorrect) {
       nextBtn.textContent = "Concluir trilha";
