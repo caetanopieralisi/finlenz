@@ -513,3 +513,6 @@
 @media (max-width: 599px){
   .tools-grid .tool-card:last-child:nth-child(odd){ grid-column: span 2; flex-direction: row; align-items: center; min-height: 0; }
 }
+
+/* Em telas largas a barra lateral já faz a navegação */
+@media (min-width: 1000px){ .topbar .nav-back{ display:none; } }
