@@ -1,22 +1,35 @@
-.auth-body{ min-height:100vh; display:flex; align-items:center; justify-content:center; background: var(--bg); padding: 32px 16px;
-  background-image: radial-gradient(circle at 20% 20%, rgba(198,255,61,.08), transparent 55%); }
-.auth-wrap{ width:100%; max-width: 400px; }
+.auth-body{
+  min-height: 100vh; display:flex; align-items:center; justify-content:center;
+  padding: calc(40px + env(safe-area-inset-top)) 16px calc(32px + env(safe-area-inset-bottom));
+  background:
+    radial-gradient(60% 45% at 50% 0%, rgba(198,255,61,.12), transparent 70%),
+    var(--bg);
+}
+.auth-wrap{ width:100%; max-width: 400px; display:flex; flex-direction:column; align-items:center; animation: rise .7s var(--ease) both; }
+.auth-brand{ display:grid; place-items:center; width: 76px; height: 76px; border-radius: 20px; background: linear-gradient(180deg, #2C2C2E, #1C1C1E); box-shadow: 0 .5px 0 rgba(255,255,255,.12) inset, 0 20px 40px -16px rgba(0,0,0,.8); margin-bottom: 22px; }
+.auth-brand__logo{ height: 46px; }
+.auth-title{ font-size: 30px; letter-spacing: -0.035em; text-align:center; }
+.auth-sub{ color: var(--text-soft); font-size: 16px; margin: 6px 0 26px; text-align:center; }
+
+.auth-card{ width:100%; background: var(--card); border-radius: 24px; padding: 20px; box-shadow: 0 .5px 0 rgba(255,255,255,.06) inset; }
+.auth-tabs{ position:relative; display:grid; grid-template-columns: 1fr 1fr; background: rgba(118,118,128,.24); border-radius: 10px; padding: 2px; margin-bottom: 20px; }
+.auth-tabs__thumb{ position:absolute; top:2px; bottom:2px; left:2px; width: calc(50% - 2px); border-radius: 8px; background: #636366; box-shadow: 0 3px 8px rgba(0,0,0,.12); transition: transform .35s var(--ease); }
+.auth-tabs[data-active="signup"] .auth-tabs__thumb{ transform: translateX(100%); }
+.auth-tab{ position:relative; z-index:1; padding: 7px 10px; font-size: 14px; font-weight: 600; color: var(--text); border-radius: 8px; }
+
+.auth-form{ display:none; flex-direction:column; gap: 14px; }
+.auth-form:not([hidden]){ display:flex; animation: rise .35s var(--ease) both; }
+.auth-form em{ font-style: normal; color: var(--text-faint); }
+.auth-error{ color: #FF6961; font-size: 13px; min-height: 0; }
+.auth-error:empty{ display:none; }
+
+.auth-divider{ display:flex; align-items:center; gap: 12px; margin: 20px 0 16px; color: var(--text-faint); font-size: 13px; }
+.auth-divider::before, .auth-divider::after{ content:""; flex:1; height: .5px; background: var(--hairline); }
+
+.auth-demo-note{ font-size: 13px; color: var(--text-faint); text-align:center; margin-top: 12px; line-height: 1.45; }
+.auth-foot{ margin-top: 28px; font-size: 12px; color: var(--text-faint); }
+
+/* legado (admin) */
 .brand--center{ display:flex; align-items:center; justify-content:center; gap:8px; margin-bottom:24px; }
-.brand--center .brand__name{ color:var(--text); }
-
-.auth-card{ background:var(--card); }
-.auth-tabs{ display:flex; background:var(--bg); border-radius:999px; padding:4px; margin-bottom:20px; border:1px solid var(--border); }
-.auth-tab{ flex:1; padding:10px; border-radius:999px; background:transparent; font-weight:700; color:var(--text-soft); }
-.auth-tab.is-active{ background:var(--primary); color:#0B0F0C; }
-
-.auth-form{ display:none; flex-direction:column; gap:14px; }
-.auth-form:not([hidden]){ display:flex; }
-.auth-form label{ display:flex; flex-direction:column; gap:6px; font-size:13px; font-weight:600; color:var(--text-soft); }
-.auth-form input{ padding:12px 14px; border-radius: var(--radius-sm); border:1.5px solid var(--border); background:var(--bg); font-size:15px; color:var(--text); }
-.auth-form input:focus{ outline:none; border-color: var(--primary); }
-.auth-error{ color:var(--expense); font-size:13px; min-height:16px; }
-
-.auth-divider{ display:flex; align-items:center; gap:10px; margin:20px 0 14px; color:var(--text-soft); font-size:12px; }
-.auth-divider::before, .auth-divider::after{ content:""; flex:1; height:1px; background:var(--border); }
-
-.auth-demo-note{ font-size:12px; color:var(--text-soft); text-align:center; margin-top:10px; }
+.auth-card .card, .auth-card{ color: var(--text); }
+.auth-card label{ display:flex; flex-direction:column; gap:7px; }
