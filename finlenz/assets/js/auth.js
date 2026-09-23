@@ -83,34 +83,76 @@ function traduzErro(msg){
 }
 
 // ---------- Conta demo ----------
+// O login da demo pode falhar de forma intermitente: limite de logins por IP
+// do Supabase (várias pessoas na mesma rede), rede instável ou o projeto
+// "acordando". Por isso: reaproveita a sessão demo se já existir, tenta de
+// novo algumas vezes com espera crescente e mostra o erro na tela (sem alert,
+// que trava alguns WebViews).
+const sleep = (ms) => new Promise(r => setTimeout(r, ms));
+let demoBusy = false;
+
+async function signInDemoWithRetry(){
+  const delays = [0, 1500, 3000, 6000];
+  let last;
+  for (let i = 0; i < delays.length; i++) {
+    if (delays[i]) await sleep(delays[i]);
+    try {
+      const { data, error } = await supabase.auth.signInWithPassword({
+        email: DEMO_EMAIL,
+        password: DEMO_PASSWORD,
+      });
+      if (!error && data.session) return { ok: true };
+      last = error;
+      // Credencial errada / conta inexistente: não adianta repetir.
+      const st = error && error.status;
+      if (st === 400 && !/rate/i.test(error.message || "")) break;
+    } catch (err) {
+      last = err; // erro de rede: tenta de novo
+    }
+    console.warn(`[finlenz] tentativa ${i + 1} de login demo falhou:`, last);
+  }
+  return { ok: false, error: last };
+}
+
 document.getElementById("demoBtn").addEventListener("click", async () => {
+  if (demoBusy) return; // evita duplo clique disparando vários logins
+  demoBusy = true;
   const btn = document.getElementById("demoBtn");
+  const errEl = document.getElementById("demoError");
+  if (errEl) errEl.textContent = "";
   btn.disabled = true;
   btn.textContent = "Preparando a conta demo...";
 
-  let result;
+  // Já está logado como demo? Não precisa gastar outro login.
+  let ready = false;
   try {
-    result = await supabase.auth.signInWithPassword({
-      email: DEMO_EMAIL,
-      password: DEMO_PASSWORD,
-    });
-  } catch (err) {
-    alert("Conta demo indisponível no momento. Veja o README para configurá-la no Supabase.");
-    btn.disabled = false;
-    btn.textContent = "» Iniciar conta demo";
-    return;
-  }
+    const { data } = await supabase.auth.getSession();
+    ready = data.session?.user?.email === DEMO_EMAIL;
+  } catch (_e) {}
 
-  if (result.error) {
-    alert("Conta demo indisponível no momento. Veja o README para configurá-la no Supabase.");
-    btn.disabled = false;
-    btn.textContent = "» Iniciar conta demo";
-    return;
+  if (!ready) {
+    const result = await signInDemoWithRetry();
+    if (!result.ok) {
+      console.error("[finlenz] conta demo indisponível:", result.error);
+      const e = result.error || {};
+      let msg = "Não foi possível abrir a conta demo agora. Tente de novo em alguns segundos.";
+      if (e.status === 429 || /rate/i.test(e.message || "")) {
+        msg = "Muitas pessoas entraram na demo agora há pouco. Aguarde um minuto e tente de novo.";
+      } else if (e.status === 400) {
+        msg = "Conta demo não configurada no Supabase (veja o README).";
+      }
+      if (errEl) errEl.textContent = msg; else alert(msg);
+      btn.disabled = false;
+      btn.textContent = "» Iniciar conta demo";
+      demoBusy = false;
+      return;
+    }
   }
 
   // Sempre reseta os dados da conta demo para o estado original antes de entrar.
   try {
-    await supabase.rpc("reset_demo_data");
+    const { error } = await supabase.rpc("reset_demo_data");
+    if (error) console.error("[finlenz] falha ao resetar dados demo:", error);
   } catch (err) {
     console.error("[finlenz] falha ao resetar dados demo:", err);
   }
