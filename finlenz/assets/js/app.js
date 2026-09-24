@@ -7,6 +7,9 @@ import { preload, get } from "./store.js";
 
 import { initTransactions, loadTransactionsSummary } from "./transactions.js";
 import { initHourValue } from "./hourvalue.js";
+import { initInstallments } from "./installments.js";
+import { initLens } from "./lens.js";
+import { renderInsights } from "./insights.js";
 import { initDreams } from "./dreams.js";
 import { initForecast } from "./forecast.js";
 import { initInvestments } from "./investments.js";
@@ -17,14 +20,14 @@ import { initProfile } from "./profile.js";
 import { maybeStartTutorial, startTutorial } from "./tutorial.js";
 
 const SCREEN_TITLES = {
-  home: "Início", transactions: "Lançamentos", hourvalue: "Valor-hora",
+  home: "Início", transactions: "Lançamentos", hourvalue: "Valor-hora", installments: "Parcelado ou à vista?",
   dreams: "Custo dos sonhos", forecast: "Previsão",
   investments: "Investimentos", learning: "Trilha",
   glossary: "Glossário", mentor: "Mentoria", tools: "Ferramentas",
   profile: "Perfil", settings: "Configurações",
 };
 const SCREEN_EYEBROWS = {
-  transactions: "Entradas e saídas", hourvalue: "Ferramenta", dreams: "Ferramenta",
+  transactions: "Entradas e saídas", hourvalue: "Ferramenta", installments: "Ferramenta", dreams: "Ferramenta",
   forecast: "Ferramenta", investments: "Simulador", learning: "Aprenda no seu ritmo",
   glossary: "Consulta rápida", mentor: "Assistente", tools: "Tudo em um lugar",
   profile: "Sua conta", settings: "Sua conta",
@@ -159,6 +162,7 @@ function renderCategories(rows){
 }
 
 export async function refreshHomeSummary(){
+  safe("insights", () => renderInsights());
   await safe("resumo da home", async () => {
     const { income, expense, recent, rows } = await loadTransactionsSummary();
     const balance = income - expense;
@@ -279,13 +283,15 @@ function initials(name){
   goto("home");
 
   // Início primeiro; o tutorial não espera o resto carregar.
-  const home = refreshHomeSummary().then(() => maybeStartTutorial());
+  const home = Promise.all([refreshHomeSummary(), safe("insights", () => renderInsights())]).then(() => maybeStartTutorial());
 
   // Ferramentas em paralelo: se uma falhar, as outras continuam.
   await Promise.all([
     home,
     safe("lançamentos", () => initTransactions()),
     safe("valor-hora", () => initHourValue()),
+    safe("parcelamento", () => initInstallments()),
+    safe("lente", () => initLens()),
     safe("sonhos", () => initDreams()),
     safe("previsão", () => initForecast()),
     safe("investimentos", () => initInvestments()),

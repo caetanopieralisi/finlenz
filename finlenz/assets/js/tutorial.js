@@ -9,16 +9,18 @@ const STEPS = [
   { welcome: true, title: "Oi, eu sou o Fin!", desc: "Vou te mostrar rapidinho como o Finlenz funciona. Bora dar uma volta pelo app?" },
   { icon: "house", tint: "lime", title: "Início", desc: "Seu saldo do mês, para onde foi o dinheiro e os últimos lançamentos, tudo na primeira tela." },
   { icon: "plusCircle", tint: "gray", title: "Lançamentos", desc: "Registre o que entra e sai, separado por categoria." },
-  ...["hourvalue", "dreams", "forecast", "investments", "learning", "glossary", "mentor"].map(id => ({
+  { icon: "lens", tint: "lime", title: "Lente de compra", desc: "Na tela inicial, digite o preço de algo que você quer comprar e veja na hora quanto custa em horas, no seu sonho e no seu mês." },
+  ...["hourvalue", "installments", "dreams", "forecast", "investments", "learning", "glossary", "mentor"].map(id => ({
     icon: T[id].icon, tint: T[id].tint, title: T[id].title,
     desc: {
       hourvalue: "Veja quantas horas de trabalho uma compra custa antes de decidir.",
+      installments: "Descubra os juros escondidos no parcelamento e se vale mais pagar à vista.",
       dreams: "Descubra o quanto um gasto do momento atrasa o sonho que você mais quer.",
       forecast: "Acompanhe para onde seu dinheiro caminha nos próximos meses.",
       investments: "Compare várias formas de investir simulando valores.",
-      learning: "Aprenda finanças em lições curtas, no seu ritmo.",
+      learning: "Aprenda finanças em lições curtas e ganhe uma medalha a cada lição.",
       glossary: "Consulte termos financeiros explicados de forma simples.",
-      mentor: "Tire dúvidas sobre sua vida financeira quando precisar.",
+      mentor: "Tire dúvidas sobre sua vida financeira quando precisar. E fique de olho nos Insights do Fin na tela inicial.",
     }[id],
   })),
 ];

@@ -25,6 +25,7 @@ export function formatDateShort(dateStr){
 
 export const TOOLS = [
   { id: "hourvalue", icon: "clock", tint: "orange", title: "Valor-hora", desc: "Compra em horas de trabalho" },
+  { id: "installments", icon: "card", tint: "red", title: "Parcelado ou à vista?", desc: "Os juros escondidos na parcela" },
   { id: "dreams", icon: "target", tint: "pink", title: "Custo dos sonhos", desc: "Quanto isso atrasa seu sonho" },
   { id: "forecast", icon: "trend", tint: "green", title: "Previsão", desc: "Seu dinheiro nos próximos meses" },
   { id: "investments", icon: "bars", tint: "blue", title: "Investimentos", desc: "Simule onde guardar seu dinheiro" },
