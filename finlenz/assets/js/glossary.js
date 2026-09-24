@@ -30,7 +30,7 @@ function render(list, q){
   const groups = {};
   list.forEach(t => {
     const letter = t.term.normalize("NFD").replace(/[̀-ͯ]/g, "").charAt(0).toUpperCase();
-    (groups[letter] ||= []).push(t);
+    (groups[letter] = groups[letter] || []).push(t);
   });
   el.innerHTML = Object.entries(groups).map(([letter, items]) => `
     <div>

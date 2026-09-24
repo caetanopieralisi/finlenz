@@ -53,7 +53,9 @@ export function escapeHtml(str){
 export function animateNumber(el, to, format, duration = 650){
   const from = Number(el.dataset.value || 0);
   el.dataset.value = to;
-  if (matchMedia("(prefers-reduced-motion: reduce)").matches || from === to) { el.textContent = format(to); return; }
+  el.textContent = format(to); // valor final garantido, mesmo se a animação não rodar
+  const reduce = window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if (reduce || from === to || document.hidden || !window.requestAnimationFrame) return;
   const start = performance.now();
   const step = (now) => {
     const t = Math.min(1, (now - start) / duration);

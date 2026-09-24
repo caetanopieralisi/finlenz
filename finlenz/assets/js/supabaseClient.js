@@ -1,5 +1,7 @@
 import { SUPABASE_URL, SUPABASE_ANON_KEY } from "./config.js";
-import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm";
+// A biblioteca vem em um único arquivo, carregado com <script defer> no HTML
+// (roda antes deste módulo), em vez de ~9 módulos encadeados do CDN.
+const { createClient } = window.supabase;
 
 // ---------------------------------------------------------------
 // Alguns WebViews (ex.: WebViewer do App Inventor) rodam com o

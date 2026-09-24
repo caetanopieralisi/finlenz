@@ -103,7 +103,7 @@ async function renderForecast(){
   const monthMap = {};
   rows.forEach(r => {
     const key = r.date.slice(0, 7);
-    monthMap[key] ??= { income: 0, expense: 0 };
+    if (!monthMap[key]) monthMap[key] = { income: 0, expense: 0 };
     monthMap[key][r.type] += Number(r.amount);
   });
   const monthKeys = Object.keys(monthMap).sort();
@@ -157,7 +157,7 @@ async function renderForecast(){
 
   const headline = document.getElementById("fcHeadline");
   if (headline) {
-    headline.textContent = formatBRL(futureCum[futureCum.length - 1]);
+    headline.textContent = formatBRL(baseline + avgNet * 6);
     headline.style.color = avgNet >= 0 ? "" : "#FF6961";
   }
 
