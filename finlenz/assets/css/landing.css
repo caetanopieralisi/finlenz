@@ -30,6 +30,7 @@ html, body{ overflow-x: hidden; }
 .tile--indigo{ background: #5856D6; background: linear-gradient(180deg,#7D7AFF,#5856D6); }
 .tile--teal{ background: #30B0C7; background: linear-gradient(180deg,#5AD8F5,#30B0C7); }
 .tile--purple{ background: #AF52DE; background: linear-gradient(180deg,#CF7BFF,#AF52DE); }
+.tile--red{ background: #FF3B30; background: linear-gradient(180deg,#FF6259,#FF3B30); }
 .tile--gray{ background: #7C7C82; background: linear-gradient(180deg,#A2A2A7,#7C7C82); }
 
 /* ---------- Botões ---------- */
@@ -255,7 +256,7 @@ html, body{ overflow-x: hidden; }
   .feature--flip{ flex-direction: row-reverse; }
   .feature--flip .feature__text{ padding-right: 0; padding-left: 56px; }
   .feature__text h3{ font-size: 32px; }
-  .tools{ grid-template-columns: repeat(4, 1fr); }
+  .tools{ grid-template-columns: repeat(3, 1fr); }
   .tools li{ display: flex; flex-direction: column; align-items: flex-start; padding: 20px; }
   .tools b{ margin-top: 16px; }
   .tools li > span:last-child{ margin-top: 4px; }
