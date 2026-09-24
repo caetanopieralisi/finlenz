@@ -272,6 +272,7 @@ function initials(name){
   const name = state.profile.name || "Você";
   document.getElementById("homeName").textContent = name;
   document.getElementById("homeDemoTag").hidden = !state.profile.is_demo;
+  document.getElementById("leadDot").href = "interesse.html?src=" + (state.profile.is_demo ? "demo" : "app");
   document.getElementById("sidebarName").textContent = name;
   document.getElementById("sidebarEmail").textContent = state.user.email || "";
   document.getElementById("sidebarAvatar").textContent = initials(name);
