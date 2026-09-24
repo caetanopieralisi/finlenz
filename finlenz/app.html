@@ -16,24 +16,7 @@
 <link rel="stylesheet" href="assets/css/app.css">
 <script async data-chartjs="1" src="https://cdn.jsdelivr.net/npm/chart.js@4.5.1/dist/chart.umd.min.js"></script>
 <script defer src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.117.1/dist/umd/supabase.js"></script>
-<link rel="modulepreload" href="assets/js/app.js">
-<link rel="modulepreload" href="assets/js/supabaseClient.js">
-<link rel="modulepreload" href="assets/js/config.js">
-<link rel="modulepreload" href="assets/js/store.js">
-<link rel="modulepreload" href="assets/js/state.js">
-<link rel="modulepreload" href="assets/js/icons.js">
-<link rel="modulepreload" href="assets/js/ui.js">
-<link rel="modulepreload" href="assets/js/txrow.js">
-<link rel="modulepreload" href="assets/js/transactions.js">
-<link rel="modulepreload" href="assets/js/hourvalue.js">
-<link rel="modulepreload" href="assets/js/dreams.js">
-<link rel="modulepreload" href="assets/js/forecast.js">
-<link rel="modulepreload" href="assets/js/investments.js">
-<link rel="modulepreload" href="assets/js/learning.js">
-<link rel="modulepreload" href="assets/js/glossary.js">
-<link rel="modulepreload" href="assets/js/mentor.js">
-<link rel="modulepreload" href="assets/js/profile.js">
-<link rel="modulepreload" href="assets/js/tutorial.js">
+<link rel="preload" href="assets/js/app.bundle.js" as="script">
 </head>
 <body class="app-body">
 
@@ -378,6 +361,6 @@
   <div class="lesson-modal__box" id="lessonModalBox"></div>
 </div>
 
-<script type="module" src="assets/js/app.js"></script>
+<script defer src="assets/js/app.bundle.js"></script>
 </body>
 </html>
