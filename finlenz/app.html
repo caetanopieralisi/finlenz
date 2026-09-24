@@ -91,6 +91,26 @@
         <span id="homeName" hidden></span>
 
         <div class="group">
+          <div class="group__head"><h3>Lente de compra</h3></div>
+          <div class="card lens">
+            <form id="lensForm" class="lens__form" autocomplete="off">
+              <span class="lens__icon"><i data-icon="lens"></i></span>
+              <label class="lens__field">
+                <span class="visually-hidden">Valor da compra</span>
+                <span class="lens__cur">R$</span>
+                <input type="number" id="lensPrice" min="0" step="0.01" inputmode="decimal" placeholder="Pensando em comprar algo?">
+              </label>
+            </form>
+            <div id="lensResult" class="lens__result" hidden></div>
+          </div>
+        </div>
+
+        <div class="group">
+          <div class="group__head"><h3>Insights do Fin</h3></div>
+          <ul id="homeInsights" class="list insights"></ul>
+        </div>
+
+        <div class="group">
           <div class="group__head"><h3>Para onde foi o dinheiro</h3></div>
           <div class="card">
             <div id="homeCats" class="cats"></div>
@@ -161,11 +181,45 @@
         <div id="hvResult" class="result-box" hidden></div>
       </section>
 
+      <!-- PARCELADO OU À VISTA -->
+      <section class="screen" id="screen-installments">
+        <p class="screen-intro">Descubra os juros escondidos no parcelamento antes de passar o cartão.</p>
+        <div class="card form-card">
+          <label class="field"><span>Preço à vista</span><input type="number" id="instPrice" min="0" step="0.01" inputmode="decimal" placeholder="R$ 0,00"></label>
+          <div class="form-row form-row--3">
+            <label class="field"><span>Parcelas</span><input type="number" id="instCount" min="2" max="48" step="1" value="10" inputmode="numeric"></label>
+            <label class="field"><span>Valor da parcela</span><input type="number" id="instPmt" min="0" step="0.01" inputmode="decimal" placeholder="R$ 0,00"></label>
+            <label class="field"><span>Total parcelado</span><input type="number" id="instTotal" min="0" step="0.01" inputmode="decimal" placeholder="R$ 0,00"></label>
+          </div>
+          <div class="inst-opts">
+            <label class="switch"><input type="checkbox" id="instFirstNow"><span class="switch__ui" aria-hidden="true"></span><span>1ª parcela paga na compra</span></label>
+            <button type="button" class="link-btn" id="instNoInterest">Preencher “sem juros”</button>
+          </div>
+        </div>
+        <div id="instResult" class="result-box inst-result"></div>
+      </section>
+
       <!-- SONHOS -->
       <section class="screen" id="screen-dreams">
         <div class="group">
           <div class="group__head"><h3>Seus sonhos</h3></div>
           <div id="dreamsList" class="dreams-list"></div>
+        </div>
+
+        <div class="group" id="wiCard">
+          <div class="group__head"><h3>E se eu guardasse mais?</h3></div>
+          <div class="card form-card whatif">
+            <label class="field"><span>Sonho</span><select id="wiDream"></select></label>
+            <div class="whatif__row"><span class="muted">Guardando por mês</span><b id="wiValue" class="num">R$ 0,00</b></div>
+            <input type="range" id="wiRange" class="range" min="0" max="1000" step="10" value="0" aria-label="Quanto guardar por mês">
+            <div class="chips" id="wiChips">
+              <button type="button" class="chip" data-add="50">+ R$ 50</button>
+              <button type="button" class="chip" data-add="100">+ R$ 100</button>
+              <button type="button" class="chip" data-add="200">+ R$ 200</button>
+            </div>
+            <div id="wiResult" class="whatif__result"></div>
+            <button type="button" class="btn btn-tinted btn-block" id="wiApply" hidden>Usar esse valor no meu sonho</button>
+          </div>
         </div>
 
         <div class="group">
@@ -261,6 +315,17 @@
           </div>
         </div>
         <div id="learningTrail" class="trail"></div>
+        <div class="group">
+          <div class="group__head"><h3>Suas medalhas</h3><span class="muted" id="trailMedalsCount"></span></div>
+          <div class="card">
+            <div id="trailMedals" class="medals"></div>
+          </div>
+        </div>
+        <div class="card cert-cta" id="trailCert" hidden>
+          <span class="tile tile--lime"><i data-icon="award"></i></span>
+          <span class="cert-cta__text"><b>Trilha completa!</b><small>Seu certificado de conclusão está pronto.</small></span>
+          <button class="btn btn-primary btn-sm" id="trailCertBtn">Ver certificado</button>
+        </div>
       </section>
 
       <!-- GLOSSÁRIO -->
