@@ -125,7 +125,7 @@ strong, b{ font-weight: 600; }
 /* ---------- Campos ---------- */
 .field{ display:flex; flex-direction:column; gap:7px; }
 .field > span, label{ font-size: 13px; font-weight: 500; color: var(--text-soft); }
-input[type="text"], input[type="email"], input[type="password"], input[type="number"], input[type="date"], input[type="search"], select, textarea{
+input[type="text"], input[type="email"], input[type="password"], input[type="number"], input[type="date"], input[type="search"], input[type="tel"], select, textarea{
   width: 100%; min-height: 48px; padding: 12px 14px;
   border-radius: 12px; border: 1px solid transparent;
   background: var(--card-2); color: var(--text);

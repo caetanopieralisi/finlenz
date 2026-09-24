@@ -629,3 +629,10 @@
 .cert__medals{ display:flex; justify-content:center; flex-wrap:wrap; gap: 6px; margin: 18px 0 14px; }
 .cert__medals .tile{ width: 28px; height: 28px; border-radius: 50%; font-size: 15px; }
 .cert__date{ font-size: 12px; color: var(--text-faint); }
+
+/* Bolinha discreta da pesquisa de interesse: canto superior esquerdo, logo abaixo da barra do topo,
+   numa faixa de 12px onde não existe nenhum botão (logo e "Voltar" começam em 12px) */
+.lead-dot{ position: fixed; z-index: 90; left: max(0px, env(safe-area-inset-left)); top: calc(env(safe-area-inset-top) + 56px);
+  width: 12px; height: 18px; display: grid; place-items: center; -webkit-tap-highlight-color: transparent; }
+.lead-dot::after{ content:""; width: 5px; height: 5px; border-radius: 50%; background: rgba(255,255,255,.14); transition: background .2s ease, transform .2s ease; }
+.lead-dot:active::after, .lead-dot:hover::after{ background: var(--primary); transform: scale(1.5); }
