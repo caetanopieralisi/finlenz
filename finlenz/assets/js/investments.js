@@ -88,7 +88,7 @@ function runSimulation(){
   // Resultados com bruto, IR estimado e líquido, do melhor líquido pro pior.
   lastResults = presets.map(p => {
     const series = simulate(initial, monthly, months, p.monthlyRate);
-    const grossFinal = series.at(-1);
+    const grossFinal = series[series.length - 1];
     const gain = grossFinal - invested;
     const tax = estimateTax(p.taxProfile, gain, months);
     const netFinal = grossFinal - tax;
