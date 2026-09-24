@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#000000">
+<meta name="robots" content="noindex">
+<title>Faça parte · Finlenz</title>
+<link rel="icon" type="image/png" href="assets/img/logo.png">
+<link rel="stylesheet" href="assets/css/style.css">
+<style>
+  body{ min-height: 100vh; background: radial-gradient(70% 45% at 50% 0%, rgba(198,255,61,.12), transparent 70%), #000; }
+  .wrap{ max-width: 460px; margin: 0 auto; min-height: 100vh; display:flex; flex-direction:column; padding: calc(18px + env(safe-area-inset-top)) 20px calc(20px + env(safe-area-inset-bottom)); }
+  .top{ display:flex; align-items:center; gap: 12px; }
+  .back{ width: 36px; height: 36px; border-radius: 50%; display:grid; place-items:center; background: #1C1C1E; color: var(--text); font-size: 20px; visibility: hidden; }
+  .back.is-on{ visibility: visible; }
+  .bar{ flex:1; height: 4px; border-radius: 2px; background: #2C2C2E; overflow:hidden; }
+  .bar i{ display:block; height:100%; width:0; background: var(--primary); border-radius: 2px; transition: width .45s var(--ease); }
+  .count{ font-size: 13px; color: var(--text-soft); font-variant-numeric: tabular-nums; min-width: 34px; text-align:right; }
+
+  .steps{ flex:1; position:relative; display:flex; }
+  .step{ display:none; flex-direction:column; width:100%; padding-top: 34px; }
+  .step.is-on{ display:flex; animation: stepIn .45s var(--ease) both; }
+  .step.is-back{ animation-name: stepBack; }
+  @keyframes stepIn{ from{ opacity:0; transform: translateX(24px); } to{ opacity:1; transform:none; } }
+  @keyframes stepBack{ from{ opacity:0; transform: translateX(-24px); } to{ opacity:1; transform:none; } }
+  .kicker{ font-size: 13px; font-weight: 600; color: var(--primary); margin-bottom: 8px; }
+  .q{ font-size: 28px; line-height: 1.12; letter-spacing: -0.03em; font-weight: 700; }
+  .hint{ font-size: 15px; color: var(--text-soft); margin-top: 8px; line-height: 1.45; }
+  .body{ margin-top: 26px; display:flex; flex-direction:column; gap: 12px; }
+
+  .opts{ display:grid; grid-template-columns: 1fr; gap: 10px; }
+  .opts--2{ grid-template-columns: 1fr 1fr; }
+  .opt{ display:flex; align-items:center; gap: 12px; width:100%; text-align:left; min-height: 56px; padding: 12px 16px; border-radius: 16px; background: #1C1C1E; color: var(--text); font-size: 16px; font-weight: 500; box-shadow: inset 0 0 0 1.5px transparent; transition: box-shadow .15s ease, background-color .15s ease, transform .15s ease; }
+  .opt:active{ transform: scale(.98); }
+  .opt .em{ font-size: 22px; width: 28px; text-align:center; }
+  .opt.is-on{ box-shadow: inset 0 0 0 1.5px var(--primary); background: rgba(198,255,61,.1); }
+  .opt small{ display:block; font-size: 13px; color: var(--text-soft); font-weight: 400; }
+
+  .scale{ display:grid; grid-template-columns: repeat(11, 1fr); gap: 5px; }
+  .scale button{ aspect-ratio: 1 / 1.25; border-radius: 10px; background: #1C1C1E; font-size: 15px; font-weight: 600; font-variant-numeric: tabular-nums; transition: background-color .15s ease, color .15s ease, transform .15s ease; }
+  .scale button.is-on{ background: var(--primary); color: var(--on-primary); transform: scale(1.06); }
+  .scale-legend{ display:flex; justify-content:space-between; font-size: 12px; color: var(--text-faint); }
+
+  .chips{ display:flex; flex-wrap:wrap; gap: 8px; }
+  .chip{ display:inline-flex; align-items:center; gap: 6px; padding: 10px 14px; border-radius: 999px; background: #1C1C1E; font-size: 15px; font-weight: 500; box-shadow: inset 0 0 0 1.5px transparent; transition: all .15s ease; }
+  .chip.is-on{ box-shadow: inset 0 0 0 1.5px var(--primary); background: rgba(198,255,61,.1); color: var(--primary); }
+
+
+  .field{ display:flex; flex-direction:column; gap: 6px; }
+  .contact{ position:relative; display:block; }
+  .contact.has-tag input{ padding-right: 124px; }
+  .detect{ position:absolute; right: 8px; top: 50%; transform: translateY(-50%); font-style: normal; font-size: 12px; font-weight: 600; padding: 5px 9px; border-radius: 999px; background: rgba(198,255,61,.14); color: var(--primary); pointer-events:none; animation: pop .25s var(--ease) both; }
+  .detect.is-bad{ background: rgba(255,105,97,.14); color: #FF6961; }
+  @keyframes pop{ from{ opacity:0; transform: translateY(-50%) scale(.8); } to{ opacity:1; transform: translateY(-50%) scale(1); } }
+  .sugs{ margin-top: -2px; }
+  .sugs .chip{ padding: 7px 12px; font-size: 14px; }
+  .tip{ font-size: 13px; color: var(--text-faint); margin-top: -4px; }
+  .field span{ font-size: 13px; color: var(--text-soft); }
+  textarea{ min-height: 170px; line-height: 1.45; resize: vertical; }
+  .check{ display:flex; gap: 12px; align-items:flex-start; font-size: 14px; color: var(--text-soft); line-height: 1.45; cursor:pointer; }
+  .check input{ appearance:none; -webkit-appearance:none; width: 22px; height: 22px; border-radius: 7px; flex-shrink:0; margin-top: 1px; background: #2C2C2E; box-shadow: inset 0 0 0 1.5px rgba(255,255,255,.18); display:grid; place-items:center; min-height:0; padding:0; border:none; }
+  .check input:checked{ background: var(--primary); box-shadow:none; }
+  .check input:checked::after{ content:""; width: 6px; height: 11px; border: solid var(--on-primary); border-width: 0 2.5px 2.5px 0; transform: rotate(45deg) translate(-1px,-1px); }
+  .err{ font-size: 13px; color: #FF6961; min-height: 18px; }
+  .hp{ position:absolute; left:-9999px; width:1px; height:1px; opacity:0; }
+
+  .foot{ padding-top: 18px; display:flex; flex-direction:column; gap: 10px; }
+  .foot .btn{ min-height: 54px; font-size: 17px; border-radius: 16px; }
+  .skip{ color: var(--text-soft); font-size: 15px; padding: 6px; }
+
+  .done{ text-align:center; align-items:center; justify-content:center; padding-top: 0; }
+  .done .mascot{ width: 96px; height: 96px; border-radius: 50%; background: var(--primary); position:relative; margin: 0 auto 22px; box-shadow: 0 20px 50px -14px rgba(198,255,61,.55); animation: bounce 1s var(--ease) both; }
+  .done .mascot i{ position:absolute; top: 37px; width: 9px; height: 10px; border-radius: 50%; background:#111; }
+  .done .mascot i:nth-child(1){ left: 30px; } .done .mascot i:nth-child(2){ right: 30px; }
+  .done .mascot b{ position:absolute; left:50%; top: 52px; width: 28px; height: 14px; transform: translateX(-50%); border: 3px solid #111; border-top:none; border-radius: 0 0 20px 20px; }
+  @keyframes bounce{ 0%{ transform: scale(.4); opacity:0; } 60%{ transform: scale(1.1); opacity:1; } 100%{ transform: scale(1); } }
+  .pending{ font-size: 13px; color: var(--warning); margin-top: 12px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top">
+    <button class="back" id="back" aria-label="Voltar">‹</button>
+    <div class="bar"><i id="bar"></i></div>
+    <span class="count" id="count"></span>
+  </div>
+
+  <form class="steps" id="form" novalidate autocomplete="on">
+    <input class="hp" type="text" name="empresa_site" tabindex="-1" autocomplete="off" aria-hidden="true">
+
+    <!-- 1. Nota -->
+    <section class="step" data-key="nota">
+      <p class="kicker">Rapidinho, leva 1 minuto</p>
+      <h1 class="q">De 0 a 10, quanto você indicaria o Finlenz para um amigo?</h1>
+      <div class="body">
+        <div class="scale" id="scale"></div>
+        <div class="scale-legend"><span>Nada provável</span><span>Com certeza</span></div>
+      </div>
+    </section>
+
+    <!-- 2. O que mais gostou -->
+    <section class="step" data-key="favoritos" data-multi="1">
+      <p class="kicker">O que mais te chamou atenção?</p>
+      <h1 class="q">Quais ferramentas você mais curtiu?</h1>
+      <p class="hint">Pode escolher mais de uma.</p>
+      <div class="body chips" data-group="favoritos">
+        <button type="button" class="chip" data-v="Lente de compra">🔍 Lente de compra</button>
+        <button type="button" class="chip" data-v="Valor-hora">⏱️ Valor-hora</button>
+        <button type="button" class="chip" data-v="Parcelado ou à vista">💳 Parcelado ou à vista</button>
+        <button type="button" class="chip" data-v="Sonhos">🎯 Sonhos</button>
+        <button type="button" class="chip" data-v="Previsão">📈 Previsão</button>
+        <button type="button" class="chip" data-v="Investimentos">📊 Investimentos</button>
+        <button type="button" class="chip" data-v="Trilha e medalhas">🏅 Trilha e medalhas</button>
+        <button type="button" class="chip" data-v="Mentoria">💬 Mentoria</button>
+      </div>
+    </section>
+
+    <!-- 3. Perfil e setor -->
+    <section class="step" data-key="perfil">
+      <p class="kicker">Sobre você</p>
+      <h1 class="q">Conta um pouco de você</h1>
+      <div class="body">
+        <label class="field"><span>Você é…</span>
+          <select id="perfil">
+            <option value="">Escolha uma opção</option>
+            <option>Estudante do ensino médio</option>
+            <option>Universitário</option>
+            <option>Estagiário ou jovem aprendiz</option>
+            <option>Trabalho com carteira assinada</option>
+            <option>Autônomo ou freelancer</option>
+            <option>Professor ou educador</option>
+            <option>Empresário ou gestor</option>
+            <option>Investidor</option>
+            <option value="Outro">Outro</option>
+          </select>
+        </label>
+        <label class="field" id="perfilOutroBox" hidden><span>Qual?</span><input type="text" id="perfilOutro" placeholder="Conta pra gente"></label>
+        <label class="field"><span>Setor em que você estuda ou trabalha</span>
+          <select id="setor">
+            <option value="">Escolha uma opção</option>
+            <option>Educação</option>
+            <option>Tecnologia</option>
+            <option>Finanças e bancos</option>
+            <option>Comércio e varejo</option>
+            <option>Saúde</option>
+            <option>Indústria</option>
+            <option>Agronegócio</option>
+            <option>Comunicação e marketing</option>
+            <option>Serviços</option>
+            <option>Setor público</option>
+            <option>Ainda não trabalho</option>
+            <option value="Outro">Outro</option>
+          </select>
+        </label>
+        <label class="field" id="setorOutroBox" hidden><span>Qual setor?</span><input type="text" id="setorOutro" placeholder="Ex.: construção, esportes…"></label>
+      </div>
+    </section>
+
+    <!-- 4. Idade -->
+    <section class="step" data-key="idade">
+      <p class="kicker">Sobre você</p>
+      <h1 class="q">Qual a sua idade?</h1>
+      <div class="body opts opts--2" data-group="idade">
+        <button type="button" class="opt" data-v="Até 17">Até 17</button>
+        <button type="button" class="opt" data-v="18 a 24">18 a 24</button>
+        <button type="button" class="opt" data-v="25 a 34">25 a 34</button>
+        <button type="button" class="opt" data-v="35 ou mais">35 ou mais</button>
+      </div>
+    </section>
+
+    <!-- 5. Contato -->
+    <section class="step" data-key="contato">
+      <p class="kicker">Quase lá</p>
+      <h1 class="q">Como a gente fala com você?</h1>
+      <div class="body">
+        <label class="field"><span>Seu nome</span><input type="text" id="nome" name="nome" autocomplete="name" placeholder="Como te chamamos?"></label>
+        <label class="field"><span>Seu melhor contato</span>
+          <span class="contact">
+            <input type="text" id="contato" name="contato" autocomplete="on" autocapitalize="off" autocorrect="off" spellcheck="false" placeholder="WhatsApp, e-mail ou @Instagram">
+            <em class="detect" id="detect" hidden></em>
+          </span>
+        </label>
+        <div class="chips sugs" id="sugs" hidden></div>
+        <p class="tip" id="tip">Digite do jeito que preferir, a gente reconhece.</p>
+        <label class="check" id="menorBox" hidden><input type="checkbox" id="menor"><span>Tenho menos de 18 anos e um responsável autorizou eu deixar meu contato.</span></label>
+        <label class="check"><input type="checkbox" id="lgpd"><span>Autorizo o Finlenz a guardar esses dados e entrar em contato comigo sobre o app. Posso pedir para apagar quando quiser.</span></label>
+        <p class="err" id="err" role="alert"></p>
+      </div>
+    </section>
+
+    <!-- 6. Comentário (opcional) -->
+    <section class="step" data-key="comentario" data-optional="1">
+      <p class="kicker">Opcional</p>
+      <h1 class="q">Quer contar mais alguma coisa?</h1>
+      <div class="body">
+        <textarea id="comentario" name="comentario" placeholder="Quais são seus planos com o Finlenz? Usar no dia a dia, investir, levar para a sua empresa ou para os seus alunos… Sugestões também são muito bem-vindas."></textarea>
+      </div>
+    </section>
+
+    <!-- Obrigado -->
+    <section class="step done" data-key="fim">
+      <div class="mascot"><i></i><i></i><b></b></div>
+      <h1 class="q">Valeu, <span id="thanksName">de verdade</span>!</h1>
+      <p class="hint">Suas respostas ajudam o Finlenz a crescer. A gente vai falar com você em breve.</p>
+      <p class="pending" id="pending" hidden></p>
+    </section>
+  </form>
+
+  <div class="foot" id="foot">
+    <button class="btn btn-primary btn-block" id="next" type="button" disabled>Continuar</button>
+    <button class="skip" id="skip" type="button" hidden>Pular</button>
+  </div>
+</div>
+
+<script>
+(function(){
+  // URL do Google Apps Script que grava na planilha (preenchida na publicação).
+  var ENDPOINT = "https://script.google.com/macros/s/AKfycbxHVd5wgZY9D-Q_Dp7PvALLVnJbgzYGHtGAXk32BPuQWql_OdmO4iFEFHjuoEQR8AAI/exec";
+  var QUEUE_KEY = "finlenz_leads_pendentes";
+
+  var steps = [].slice.call(document.querySelectorAll(".step"));
+  var answers = { nota: null, favoritos: [], idade: "", canal: "" };
+  var i = 0;
+  var $ = function(id){ return document.getElementById(id); };
+  var nextBtn = $("next"), skipBtn = $("skip"), backBtn = $("back");
+  var total = steps.length - 1; // sem contar a tela de obrigado
+
+  // escala 0–10
+  var scale = $("scale");
+  for (var n = 0; n <= 10; n++) {
+    var b = document.createElement("button"); b.type = "button"; b.textContent = n; b.dataset.v = n;
+    scale.appendChild(b);
+  }
+  scale.addEventListener("click", function(e){
+    var b = e.target.closest("button"); if (!b) return;
+    [].forEach.call(scale.children, function(x){ x.classList.toggle("is-on", x === b); });
+    answers.nota = Number(b.dataset.v);
+    update(); setTimeout(go.bind(null, 1), 280);
+  });
+
+  // opções (única ou múltipla)
+  [].forEach.call(document.querySelectorAll("[data-group]"), function(g){
+    var key = g.dataset.group, multi = g.closest(".step").dataset.multi;
+    g.addEventListener("click", function(e){
+      var b = e.target.closest("[data-v]"); if (!b) return;
+      if (multi) {
+        b.classList.toggle("is-on");
+        answers[key] = [].map.call(g.querySelectorAll(".is-on"), function(x){ return x.dataset.v; });
+        update();
+      } else {
+        [].forEach.call(g.querySelectorAll("[data-v]"), function(x){ x.classList.toggle("is-on", x === b); });
+        answers[key] = b.dataset.v;
+        if (key === "idade") $("menorBox").hidden = b.dataset.v !== "Até 17";
+        update(); setTimeout(go.bind(null, 1), 280);
+      }
+    });
+  });
+
+  // perfil e setor (dropdown + "Outro")
+  function pick(sel, box){
+    var v = $(sel).value;
+    if (v === "Outro") { var t = $(sel + "Outro").value.trim(); return t ? "Outro: " + t : ""; }
+    return v;
+  }
+  ["perfil", "setor"].forEach(function(id){
+    $(id).addEventListener("change", function(){
+      var outro = this.value === "Outro";
+      $(id + "OutroBox").hidden = !outro;
+      if (outro) $(id + "Outro").focus();
+      update();
+    });
+    $(id + "Outro").addEventListener("input", update);
+  });
+
+  // contato: reconhece WhatsApp, e-mail ou Instagram enquanto a pessoa digita
+  var DOMAINS = ["gmail.com", "hotmail.com", "outlook.com", "icloud.com", "yahoo.com.br", "live.com"];
+  var inp = $("contato"), detect = $("detect"), sugs = $("sugs"), tip = $("tip");
+
+  function classify(v){
+    v = v.trim();
+    if (!v) return { canal: "", ok: false };
+    var ig = v.match(/instagram\.com\/([A-Za-z0-9._]+)/i);
+    if (ig) return { canal: "Instagram", ok: true, value: "@" + ig[1] };
+    if (/^[\d\s()+\-.]+$/.test(v)) {
+      var d = v.replace(/\D/g, "");
+      if (d.length >= 12 && d.indexOf("55") === 0) d = d.slice(2);
+      return { canal: "WhatsApp", ok: d.length === 10 || d.length === 11, digits: d };
+    }
+    if (v.indexOf("@") > 0) return { canal: "E-mail", ok: /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v), value: v.toLowerCase() };
+    var h = v.replace(/^@/, "");
+    if (/^[A-Za-z0-9._]{1,30}$/.test(h)) return { canal: "Instagram", ok: h.length >= 2, value: "@" + h.toLowerCase() };
+    return { canal: "", ok: false };
+  }
+  function maskPhone(d){
+    d = d.slice(0, 11);
+    if (d.length > 6) return "(" + d.slice(0, 2) + ") " + d.slice(2, d.length - 4) + "-" + d.slice(-4);
+    if (d.length > 2) return "(" + d.slice(0, 2) + ") " + d.slice(2);
+    return d;
+  }
+  var LABEL = { "WhatsApp": "📱 WhatsApp", "E-mail": "✉️ E-mail", "Instagram": "📸 Instagram" };
+  function onContact(){
+    var c = classify(inp.value);
+    if (c.canal === "WhatsApp" && c.digits.length >= 3 && !/^\+/.test(inp.value)) {
+      var m = maskPhone(c.digits);
+      if (m !== inp.value) inp.value = m;
+    }
+    answers.canal = c.canal;
+    detect.hidden = !c.canal;
+    inp.parentNode.classList.toggle("has-tag", !!c.canal);
+    detect.textContent = c.canal ? LABEL[c.canal] + (c.ok ? " ✓" : "") : "";
+    detect.classList.toggle("is-bad", false);
+    // dicas de preenchimento
+    var v = inp.value.trim(), html = "";
+    if (c.canal === "E-mail" || /@[^@]*$/.test(v) && v.indexOf("@") > 0) {
+      var at = v.split("@"), dom = (at[1] || "").toLowerCase();
+      var list = DOMAINS.filter(function(x){ return x.indexOf(dom) === 0 && x !== dom; }).slice(0, 4);
+      html = list.map(function(x){ return '<button type="button" class="chip" data-s="' + at[0] + "@" + x + '">@' + x + "</button>"; }).join("");
+    }
+    sugs.innerHTML = html; sugs.hidden = !html;
+    tip.textContent = !c.canal ? "Digite do jeito que preferir, a gente reconhece."
+      : c.canal === "WhatsApp" ? (c.ok ? "Perfeito, vamos te chamar no WhatsApp." : "Coloque o DDD junto, ex.: (16) 99999-9999.")
+      : c.canal === "E-mail" ? (c.ok ? "Perfeito, vamos te mandar um e-mail." : "Termine o e-mail, ex.: voce@gmail.com.")
+      : "Vamos te chamar no Instagram. Se preferir, coloque seu WhatsApp ou e-mail.";
+    update();
+  }
+  inp.addEventListener("input", onContact);
+  sugs.addEventListener("click", function(e){
+    var b = e.target.closest("[data-s]"); if (!b) return;
+    inp.value = b.dataset.s; onContact(); inp.focus();
+  });
+  ["nome", "lgpd", "menor"].forEach(function(id){ $(id).addEventListener("input", update); $(id).addEventListener("change", update); });
+
+  function contactOk(){ return classify(inp.value).ok; }
+  function contactValue(){
+    var c = classify(inp.value);
+    if (c.canal === "WhatsApp") return maskPhone(c.digits);
+    return c.value || inp.value.trim();
+  }
+
+  function valid(){
+    var key = steps[i].dataset.key;
+    if (key === "nota") return answers.nota !== null;
+    if (key === "favoritos") return answers.favoritos.length > 0;
+    if (key === "perfil") return !!pick("perfil") && !!pick("setor");
+    if (key === "idade") return !!answers.idade;
+    if (key === "contato") return $("nome").value.trim().length >= 2 && contactOk() && $("lgpd").checked && (answers.idade !== "Até 17" || $("menor").checked);
+    return true;
+  }
+
+  function update(){
+    var key = steps[i].dataset.key;
+    nextBtn.disabled = !valid();
+    nextBtn.textContent = key === "comentario" ? "Enviar" : key === "fim" ? "Responder de novo" : "Continuar";
+    skipBtn.hidden = key !== "comentario";
+    backBtn.classList.toggle("is-on", i > 0 && key !== "fim");
+    $("bar").style.width = Math.min(100, (i / total) * 100) + "%";
+    $("count").textContent = key === "fim" ? "" : (i + 1) + "/" + total;
+    if (key === "contato") $("err").textContent = "";
+  }
+
+  function show(n, dir){
+    steps[i].classList.remove("is-on", "is-back");
+    i = n;
+    steps[i].classList.add("is-on");
+    if (dir < 0) steps[i].classList.add("is-back");
+    update();
+    window.scrollTo(0, 0);
+  }
+
+  function go(dir){
+    if (dir > 0 && !valid()) return;
+    var n = i + dir;
+    if (n < 0 || n >= steps.length) return;
+    show(n, dir);
+  }
+
+  nextBtn.addEventListener("click", function(){
+    var key = steps[i].dataset.key;
+    if (key === "comentario") return submit();
+    if (key === "fim") return location.reload();
+    if (key === "contato" && !valid()) { $("err").textContent = "Confira nome, contato e a autorização."; return; }
+    go(1);
+  });
+  skipBtn.addEventListener("click", submit);
+  backBtn.addEventListener("click", function(){ go(-1); });
+
+  // ---------- envio (com fila para quando a internet cair) ----------
+  function readQueue(){ try { return JSON.parse(localStorage.getItem(QUEUE_KEY) || "[]"); } catch (e) { return []; } }
+  function writeQueue(q){ try { localStorage.setItem(QUEUE_KEY, JSON.stringify(q)); } catch (e) {} }
+
+  function send(row){
+    if (!ENDPOINT) return Promise.reject(new Error("sem endpoint"));
+    return fetch(ENDPOINT, { method: "POST", mode: "no-cors", headers: { "Content-Type": "text/plain;charset=utf-8" }, body: JSON.stringify(row) });
+  }
+
+  function flush(){
+    var q = readQueue(); if (!q.length || !ENDPOINT) return;
+    var row = q[0];
+    send(row).then(function(){ var rest = readQueue().filter(function(r){ return r.id !== row.id; }); writeQueue(rest); if (rest.length) flush(); }).catch(function(){});
+  }
+
+  function submit(){
+    if (document.querySelector('[name="empresa_site"]').value) { show(steps.length - 1, 1); return; } // robô
+    var row = {
+      id: Date.now().toString(36) + Math.random().toString(36).slice(2, 7),
+      data: new Date().toISOString(),
+      nome: $("nome").value.trim(),
+      contato: contactValue(),
+      canal: answers.canal,
+      nota: answers.nota,
+      favoritos: answers.favoritos.join(", "),
+      perfil: pick("perfil"),
+      setor: pick("setor"),
+      idade: answers.idade,
+      comentario: $("comentario").value.trim(),
+      autorizacao_responsavel: answers.idade === "Até 17" ? "sim" : "",
+      origem: new URLSearchParams(location.search).get("src") || "demo",
+      aparelho: /Mobi|Android|iPhone/i.test(navigator.userAgent) ? "celular" : "computador"
+    };
+    nextBtn.disabled = true; nextBtn.textContent = "Enviando…";
+    var q = readQueue(); q.push(row); writeQueue(q);
+    $("thanksName").textContent = row.nome.split(" ")[0] || "de verdade";
+    send(row).then(function(){
+      writeQueue(readQueue().filter(function(r){ return r.id !== row.id; }));
+    }).catch(function(){
+      $("pending").hidden = false;
+      $("pending").textContent = "Sem internet agora: sua resposta ficou salva neste aparelho e será enviada automaticamente.";
+    }).then(function(){ show(steps.length - 1, 1); flush(); });
+  }
+
+  window.addEventListener("online", flush);
+  flush();
+  show(0, 1);
+})();
+</script>
+</body>
+</html>
