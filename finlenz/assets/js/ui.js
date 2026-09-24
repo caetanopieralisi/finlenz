@@ -65,3 +65,21 @@ export function animateNumber(el, to, format, duration = 650){
   };
   requestAnimationFrame(step);
 }
+
+// Chart.js (~70 KB) só é necessário nos gráficos: carrega em segundo plano
+// e quem desenha gráfico espera por ele, sem travar a abertura do app.
+const CHART_SRC = "https://cdn.jsdelivr.net/npm/chart.js@4.5.1/dist/chart.umd.min.js";
+let chartPromise;
+export function loadChart(){
+  if (window.Chart) return Promise.resolve(window.Chart);
+  if (!chartPromise) {
+    chartPromise = new Promise((resolve, reject) => {
+      const existing = document.querySelector('script[data-chartjs]');
+      const s = existing || document.createElement("script");
+      s.addEventListener("load", () => resolve(window.Chart));
+      s.addEventListener("error", () => { chartPromise = null; reject(new Error("Chart.js não carregou")); });
+      if (!existing) { s.src = CHART_SRC; s.async = true; s.dataset.chartjs = "1"; document.head.appendChild(s); }
+    });
+  }
+  return chartPromise;
+}

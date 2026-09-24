@@ -3,6 +3,7 @@ import { state, formatBRL } from "./state.js";
 import { icon, categoryMeta } from "./icons.js";
 import { toast } from "./ui.js";
 import { txRowHTML } from "./txrow.js";
+import { get, refresh } from "./store.js";
 
 let refreshHome = () => {};
 // Import dinâmico pra evitar dependência circular com app.js
@@ -71,6 +72,7 @@ export function initTransactions(){
     const { error } = await supabase.from("transactions").insert(payload);
     submitBtn.disabled = false;
     if (error) { toast("Não deu pra salvar o lançamento.", "error"); return; }
+    refresh("transactions");
     form.reset();
     dateInput.value = today();
     setType("expense");
@@ -97,11 +99,8 @@ function dayLabel(dateStr){
 
 async function renderTxList(){
   const list = document.getElementById("txList");
-  const { data } = await supabase
-    .from("transactions").select("*")
-    .eq("user_id", state.user.id)
-    .order("date", { ascending: false })
-    .limit(100);
+  const all = await get("transactions");
+  const data = all.slice().reverse().slice(0, 100);
 
   if (!data || !data.length) {
     list.innerHTML = `<li class="list list__empty">Nenhum lançamento ainda.</li>`;
@@ -131,6 +130,7 @@ async function renderTxList(){
       row?.classList.add("is-removing");
       const { error } = await supabase.from("transactions").delete().eq("id", btn.dataset.del);
       if (error) { row?.classList.remove("is-removing"); toast("Não deu pra excluir.", "error"); return; }
+      refresh("transactions");
       toast("Lançamento excluído");
       setTimeout(() => { renderTxList(); refreshHome(); }, 260);
     });
@@ -140,20 +140,13 @@ async function renderTxList(){
 export async function loadTransactionsSummary(){
   const now = new Date();
   const monthStart = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}-01`;
-
-  const { data } = await supabase
-    .from("transactions").select("*")
-    .eq("user_id", state.user.id)
-    .gte("date", monthStart)
-    .order("date", { ascending: false });
-
-  const rows = data || [];
+  const all = await get("transactions");
+  const rows = all.filter(r => r.date >= monthStart).reverse();
   const income = rows.filter(r => r.type === "income").reduce((s, r) => s + Number(r.amount), 0);
   const expense = rows.filter(r => r.type === "expense").reduce((s, r) => s + Number(r.amount), 0);
   return { income, expense, recent: rows.slice(0, 5), rows };
 }
 
 export async function loadAllTransactions(){
-  const { data } = await supabase.from("transactions").select("*").eq("user_id", state.user.id).order("date");
-  return data || [];
+  return get("transactions");
 }

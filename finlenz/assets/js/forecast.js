@@ -2,6 +2,7 @@ import { supabase } from "./supabaseClient.js";
 import { state, formatBRL } from "./state.js";
 import { loadAllTransactions } from "./transactions.js";
 import { icon } from "./icons.js";
+import { loadChart } from "./ui.js";
 
 function hexToRgba(hex, alpha){
   const h = hex.replace("#", "");
@@ -162,6 +163,7 @@ async function renderForecast(){
   }
 
   const ctx = document.getElementById("forecastChart");
+  await loadChart();
   chart?.destroy();
   chart = new Chart(ctx, {
     type: "line",

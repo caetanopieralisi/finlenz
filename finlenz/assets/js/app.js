@@ -3,6 +3,7 @@ import { state, formatBRL, TOOLS } from "./state.js";
 import { icon, hydrateIcons } from "./icons.js";
 import { confirmSheet, toast, escapeHtml, animateNumber } from "./ui.js";
 import { txRowHTML, CAT_COLORS } from "./txrow.js";
+import { preload, get } from "./store.js";
 
 import { initTransactions, loadTransactionsSummary } from "./transactions.js";
 import { initHourValue } from "./hourvalue.js";
@@ -255,13 +256,11 @@ function initials(name){
   }
 
   state.user = session.user;
-  try {
-    const { data: profile } = await supabase.from("profiles").select("*").eq("id", state.user.id).maybeSingle();
-    state.profile = profile || { name: session.user.email.split("@")[0] };
-  } catch (err) {
-    console.error("[finlenz] falha ao carregar perfil:", err);
-    state.profile = { name: session.user.email.split("@")[0] };
-  }
+  // Todas as consultas saem juntas, numa rodada só (cada ida ao banco leva ~0,5–1 s).
+  preload(state.user.id);
+
+  const profile = await get("profile");
+  state.profile = profile || { name: (session.user.email || "").split("@")[0] };
 
   document.getElementById("authGate").hidden = true;
   document.getElementById("appShell").hidden = false;
@@ -279,16 +278,20 @@ function initials(name){
   hydrateIcons();
   goto("home");
 
-  // cada ferramenta é iniciada isoladamente: se uma falhar, as outras continuam
-  await safe("lançamentos", () => initTransactions());
-  await safe("valor-hora", () => initHourValue());
-  await safe("sonhos", () => initDreams());
-  await safe("previsão", () => initForecast());
-  await safe("investimentos", () => initInvestments());
-  await safe("trilha", () => initLearning());
-  await safe("glossário", () => initGlossary());
-  await safe("mentoria", () => initMentor());
-  await safe("perfil", () => initProfile());
-  await refreshHomeSummary();
-  maybeStartTutorial();
+  // Início primeiro; o tutorial não espera o resto carregar.
+  const home = refreshHomeSummary().then(() => maybeStartTutorial());
+
+  // Ferramentas em paralelo: se uma falhar, as outras continuam.
+  await Promise.all([
+    home,
+    safe("lançamentos", () => initTransactions()),
+    safe("valor-hora", () => initHourValue()),
+    safe("sonhos", () => initDreams()),
+    safe("previsão", () => initForecast()),
+    safe("investimentos", () => initInvestments()),
+    safe("trilha", () => initLearning()),
+    safe("glossário", () => initGlossary()),
+    safe("mentoria", () => initMentor()),
+    safe("perfil", () => initProfile()),
+  ]);
 })();

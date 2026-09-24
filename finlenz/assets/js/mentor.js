@@ -1,6 +1,7 @@
 import { supabase } from "./supabaseClient.js";
 import { state, formatBRL } from "./state.js";
 import { loadAllTransactions } from "./transactions.js";
+import { get } from "./store.js";
 
 let apiKey = null;
 let history = [];
@@ -21,7 +22,7 @@ Como você orienta:
 - Você está dando orientação educativa, não é consultor financeiro certificado — deixe isso implícito no tom, sem precisar repetir esse aviso toda hora.`;
 
 export async function initMentor(){
-  const { data } = await supabase.from("app_settings").select("openai_api_key").eq("id", 1).maybeSingle();
+  const data = await get("settings");
   apiKey = data?.openai_api_key || null;
 
   const note = document.getElementById("mentorNote");
@@ -55,11 +56,7 @@ export async function initMentor(){
 }
 
 async function loadHistory(){
-  const { data } = await supabase
-    .from("mentor_messages").select("role, content")
-    .eq("user_id", state.user.id)
-    .order("created_at", { ascending: true })
-    .limit(30);
+  const data = (await get("mentor")).slice();
   history = data && data.length ? data : [
     { role: "assistant", content: "Oi! Sou o mentor do Finlenz. Pode perguntar qualquer coisa sobre sua vida financeira — já tenho acesso aos seus lançamentos e sonhos pra te dar uma resposta mais certeira." }
   ];
@@ -91,13 +88,10 @@ function escapeHtml(str){
 // últimos 3 meses por categoria + sonhos) pra dar contexto ao mentor.
 // ---------------------------------------------------------------
 async function buildFinancialContext(){
-  const [txResult, dreamsResult] = await Promise.all([
-    loadAllTransactions(),
-    supabase.from("dreams").select("*").eq("user_id", state.user.id).order("created_at"),
-  ]);
+  const [txResult, dreamsResult] = await Promise.all([loadAllTransactions(), get("dreams")]);
 
   const allTx = txResult || [];
-  const dreams = dreamsResult.data || [];
+  const dreams = dreamsResult || [];
 
   const now = new Date();
   const monthStart = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}-01`;

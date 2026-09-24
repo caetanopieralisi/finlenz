@@ -2,6 +2,7 @@ import { supabase } from "./supabaseClient.js";
 import { state, formatBRL } from "./state.js";
 import { icon } from "./icons.js";
 import { toast, escapeHtml } from "./ui.js";
+import { get, refresh } from "./store.js";
 
 let dreamsCache = [];
 
@@ -28,6 +29,7 @@ export function initDreams(){
 
     const { error } = await supabase.from("dreams").insert(payload);
     if (error) { toast("Não deu pra salvar o sonho.", "error"); return; }
+    refresh("dreams");
 
     document.getElementById("dreamName").value = "";
     document.getElementById("dreamTarget").value = "";
@@ -68,8 +70,7 @@ export function initDreams(){
 }
 
 async function renderDreams(){
-  const { data } = await supabase.from("dreams").select("*").eq("user_id", state.user.id).order("created_at");
-  dreamsCache = data || [];
+  dreamsCache = await get("dreams");
 
   const list = document.getElementById("dreamsList");
   const picker = document.getElementById("dreamPickForCost");

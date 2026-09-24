@@ -2,6 +2,7 @@ import { supabase } from "./supabaseClient.js";
 import { state } from "./state.js";
 import { icon } from "./icons.js";
 import { escapeHtml } from "./ui.js";
+import { get } from "./store.js";
 
 let lessons = [];
 let completedIds = new Set();
@@ -9,8 +10,9 @@ let currentLesson = null;
 let selectedOption = null;
 
 export async function initLearning(){
-  lessons = await fetch("data/lessons.json").then(r => r.json());
-  await loadProgress();
+  // lições (arquivo estático) e progresso (banco) em paralelo
+  const [ls] = await Promise.all([fetch("data/lessons.json").then(r => r.json()), loadProgress()]);
+  lessons = ls;
   renderTrail();
 
   document.getElementById("lessonModal").addEventListener("click", (e) => {
@@ -22,7 +24,7 @@ export async function initLearning(){
 }
 
 async function loadProgress(){
-  const { data } = await supabase.from("learning_progress").select("lesson_id").eq("user_id", state.user.id).eq("completed", true);
+  const data = await get("progress");
   completedIds = new Set((data || []).map(r => r.lesson_id));
 }
 

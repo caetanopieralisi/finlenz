@@ -1,6 +1,7 @@
 import { formatBRL } from "./state.js";
 import { icon } from "./icons.js";
 import { chartOptions, areaGradient } from "./forecast.js";
+import { loadChart } from "./ui.js";
 
 let chart;
 let presets = [];
@@ -100,8 +101,9 @@ function runSimulation(){
   renderRanking();
 }
 
-function renderChart(){
+async function renderChart(){
   if (!lastRun) return;
+  await loadChart();
   const { months } = lastRun;
   const style = getComputedStyle(document.documentElement);
   const lime = style.getPropertyValue("--primary").trim() || "#C6FF3D";
