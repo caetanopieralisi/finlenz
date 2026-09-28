@@ -63,7 +63,7 @@ export function initDreams(){
     box.hidden = false;
     box.innerHTML = delayDays < 1
       ? `Esse gasto praticamente não atrasa <strong>${name}</strong>.`
-      : `<div class="hv-result__big" style="font-size:44px;color:${delayDays > 30 ? "#FF6961" : "var(--warning)"}">+${delayDays}<span>dias</span></div>
+      : `<div class="hv-result__big" style="font-size:44px;color:${delayDays > 30 ? "var(--expense)" : "var(--warning)"}">+${delayDays}<span>dias</span></div>
          <p class="hv-result__sub" style="margin-bottom:0">Gastar ${formatBRL(price)} agora atrasa <strong>${name}</strong> em cerca de ${delayMonths.toFixed(1).replace(".", ",")} ${delayMonths >= 2 ? "meses" : "mês"} de economia.</p>`;
   });
 
@@ -152,7 +152,7 @@ async function renderDreams(){
   const picker = document.getElementById("dreamPickForCost");
 
   if (!dreamsCache.length) {
-    list.innerHTML = `<div class="card list__empty">Nenhum sonho cadastrado ainda. Crie o primeiro logo abaixo.</div>`;
+    list.innerHTML = `<div class="list__empty">${icon("target")}<b>Nenhum sonho cadastrado</b><span>Um intercâmbio, um notebook, a primeira viagem. Cadastre no formulário abaixo e veja quanto tempo falta.</span></div>`;
     picker.innerHTML = `<option value="">Cadastre um sonho primeiro</option>`;
     document.getElementById("wiCard").hidden = true;
     return;

@@ -9,7 +9,7 @@ let lastResults = [];
 let selectedId = null;
 let lastRun = null;
 
-const RISK_COLOR = { "Baixo": "#30D158", "Médio": "#FFD60A", "Alto": "#FF453A" };
+const RISK_COLOR = { "Baixo": "#7DBE72", "Médio": "#E3B341", "Alto": "#E5584F" };
 
 export async function initInvestments(){
   presets = await fetch("data/investment-presets.json").then(r => r.json());
@@ -29,7 +29,7 @@ export async function initInvestments(){
 
 function riskColor(risk){
   const key = Object.keys(RISK_COLOR).find(k => String(risk).toLowerCase().startsWith(k.toLowerCase()));
-  return RISK_COLOR[key] || "#8E8E93";
+  return RISK_COLOR[key] || "#8A8D93";
 }
 
 function renderCards(){
@@ -106,7 +106,7 @@ async function renderChart(){
   await loadChart();
   const { months } = lastRun;
   const style = getComputedStyle(document.documentElement);
-  const lime = style.getPropertyValue("--primary").trim() || "#C6FF3D";
+  const lime = style.getPropertyValue("--primary").trim() || "#BEEA4F";
   const labels = Array.from({ length: months + 1 }, (_, i) => i === 0 ? "Hoje" : `Mês ${i}`);
 
   const selected = lastResults.find(r => r.id === selectedId) || lastResults[0];
@@ -128,7 +128,7 @@ async function renderChart(){
       pointRadius: 0,
       pointHoverRadius: isSel ? 5 : 0,
       pointHoverBackgroundColor: lime,
-      pointHoverBorderColor: "#1C1C1E",
+      pointHoverBorderColor: "#17181C",
       pointHoverBorderWidth: 2,
       order: isSel ? 0 : isBase ? 1 : 2,
     };

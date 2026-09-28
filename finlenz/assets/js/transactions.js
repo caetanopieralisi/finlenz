@@ -103,7 +103,7 @@ async function renderTxList(){
   const data = all.slice().reverse().slice(0, 100);
 
   if (!data || !data.length) {
-    list.innerHTML = `<li class="list list__empty">Nenhum lançamento ainda.</li>`;
+    list.innerHTML = `<li class="list list__empty">${icon("wallet")}<b>Seu histórico está vazio</b><span>Use o formulário acima para registrar o primeiro gasto ou entrada.</span></li>`;
     return;
   }
 

@@ -24,14 +24,9 @@ function monthLabel(key){
 let chart;
 let saveTimer;
 
+// Preenchimento chapado e bem leve sob a linha (sem degradê).
 export function areaGradient(c, color){
-  const { chart: ch } = c;
-  const area = ch.chartArea;
-  if (!area) return hexToRgba(color, 0.12);
-  const g = ch.ctx.createLinearGradient(0, area.top, 0, area.bottom);
-  g.addColorStop(0, hexToRgba(color, 0.28));
-  g.addColorStop(1, hexToRgba(color, 0));
-  return g;
+  return hexToRgba(color, 0.07);
 }
 
 function compactBRL(v){
@@ -52,9 +47,9 @@ export function chartOptions(extra = {}){
     plugins: {
       legend: { display: false },
       tooltip: {
-        backgroundColor: "rgba(44,44,46,.96)",
+        backgroundColor: "#1F2126",
         borderColor: "rgba(255,255,255,.08)", borderWidth: 1,
-        titleColor: "rgba(235,235,245,.62)", bodyColor: "#F5F5F7",
+        titleColor: "#A1A4AB", bodyColor: "#ECEDEF",
         titleFont: { ...font, size: 12, weight: "600" }, bodyFont: { ...font, size: 13, weight: "600" },
         padding: 10, cornerRadius: 10, displayColors: false,
         filter: (item) => item.raw !== null,
@@ -66,12 +61,12 @@ export function chartOptions(extra = {}){
       y: {
         border: { display: false },
         grid: { color: "rgba(255,255,255,.06)", drawTicks: false },
-        ticks: { color: "rgba(235,235,245,.4)", font, padding: 8, maxTicksLimit: 5, callback: v => compactBRL(v) },
+        ticks: { color: "#6B6E76", font, padding: 8, maxTicksLimit: 5, callback: v => compactBRL(v) },
       },
       x: {
         border: { display: false },
         grid: { display: false },
-        ticks: { color: "rgba(235,235,245,.4)", font, maxRotation: 0, autoSkip: true, maxTicksLimit: 7 },
+        ticks: { color: "#6B6E76", font, maxRotation: 0, autoSkip: true, maxTicksLimit: 7 },
       },
     },
   };
@@ -154,12 +149,12 @@ async function renderForecast(){
   const dataProj = [...new Array(histLabels.length).fill(null), baseline, ...futureCum];
 
   const style = getComputedStyle(document.documentElement);
-  const lime = style.getPropertyValue("--primary").trim() || "#C6FF3D";
+  const lime = style.getPropertyValue("--primary").trim() || "#BEEA4F";
 
   const headline = document.getElementById("fcHeadline");
   if (headline) {
     headline.textContent = formatBRL(baseline + avgNet * 6);
-    headline.style.color = avgNet >= 0 ? "" : "#FF6961";
+    headline.style.color = avgNet >= 0 ? "" : "#E5584F";
   }
 
   const ctx = document.getElementById("forecastChart");
@@ -181,7 +176,7 @@ async function renderForecast(){
           pointRadius: 0,
           pointHoverRadius: 5,
           pointHoverBackgroundColor: lime,
-          pointHoverBorderColor: "#1C1C1E",
+          pointHoverBorderColor: "#17181C",
           pointHoverBorderWidth: 2,
           spanGaps: false,
         },
@@ -196,7 +191,7 @@ async function renderForecast(){
           pointRadius: 0,
           pointHoverRadius: 5,
           pointHoverBackgroundColor: lime,
-          pointHoverBorderColor: "#1C1C1E",
+          pointHoverBorderColor: "#17181C",
           pointHoverBorderWidth: 2,
           spanGaps: true,
         },

@@ -23,7 +23,7 @@ function highlight(text, q){
 function render(list, q){
   const el = document.getElementById("glossaryList");
   if (!list.length) {
-    el.innerHTML = `<div class="card list__empty">Nenhum termo encontrado.</div>`;
+    el.innerHTML = `<div class="list__empty" style="background:var(--card);border:1px solid var(--hairline);border-radius:12px"><b>Nada encontrado${q ? ` para “${String(q).replace(/[<>&"]/g, "")}”` : ""}</b><span>Tente um termo mais curto, como CDI, Selic ou juros.</span></div>`;
     return;
   }
   // agrupa por letra inicial

@@ -136,7 +136,7 @@ function renderCategories(rows){
   rows.filter(r => r.type === "expense").forEach(r => { byCat[r.category] = (byCat[r.category] || 0) + Number(r.amount); });
   const entries = Object.entries(byCat).sort((a, b) => b[1] - a[1]);
   if (!entries.length) {
-    el.innerHTML = `<p class="cats__empty">Nenhuma despesa neste mês ainda.</p>`;
+    el.innerHTML = `<p class="cats__empty">Nenhuma despesa registrada em ${new Date().toLocaleDateString("pt-BR", { month: "long" })}. Quando você lançar um gasto, ele aparece aqui separado por categoria.</p>`;
     return;
   }
   // até 5 categorias; o resto vira "Outros"
@@ -186,7 +186,7 @@ export async function refreshHomeSummary(){
 
     const list = document.getElementById("homeRecent");
     if (!recent.length) {
-      list.innerHTML = `<li class="list__empty">Nenhum lançamento ainda. Toque em “Lançar” para começar.</li>`;
+      list.innerHTML = `<li class="list__empty">${icon("wallet")}<b>Nenhum lançamento ainda</b><span>Registre o que entrou e o que saiu este mês para ver o seu saldo real.</span><button class="btn btn-outline btn-sm" data-goto="transactions">Fazer o primeiro lançamento</button></li>`;
       return;
     }
     list.innerHTML = recent.map(tx => txRowHTML(tx)).join("");

@@ -4,8 +4,8 @@ import { escapeHtml } from "./ui.js";
 
 // Categorias com cor própria (mesma ordem sempre: a cor segue a categoria).
 export const CAT_COLORS = {
-  "Moradia": "#40C8E0", "Alimentação": "#FF9F0A", "Transporte": "#0A84FF", "Lazer": "#BF5AF2",
-  "Educação": "#5E5CE6", "Saúde": "#FF375F", "Outros": "#8E8E93", "Renda": "#30D158",
+  "Moradia": "#5FA8A0", "Alimentação": "#D29B4E", "Transporte": "#6E93D6", "Lazer": "#A983C6",
+  "Educação": "#8B8CD8", "Saúde": "#C96B7E", "Outros": "#8A8D93", "Renda": "#7DBE72",
 };
 
 export function txRowHTML(tx, { deletable = false, showDate = true } = {}){

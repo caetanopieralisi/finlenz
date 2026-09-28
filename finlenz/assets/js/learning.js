@@ -238,24 +238,22 @@ function downloadCertificate(date){
   const W = 1600, H = 1000, c = document.createElement("canvas");
   c.width = W; c.height = H;
   const g = c.getContext("2d");
-  const grad = g.createRadialGradient(W * 0.8, 0, 50, W * 0.8, 0, W);
-  grad.addColorStop(0, "#26330a"); grad.addColorStop(0.5, "#101110"); grad.addColorStop(1, "#000");
-  g.fillStyle = grad; g.fillRect(0, 0, W, H);
-  g.strokeStyle = "rgba(198,255,61,.5)"; g.lineWidth = 4; g.strokeRect(40, 40, W - 80, H - 80);
+  g.fillStyle = "#121317"; g.fillRect(0, 0, W, H);
+  g.strokeStyle = "rgba(190,234,79,.45)"; g.lineWidth = 2; g.strokeRect(48, 48, W - 96, H - 96);
   g.textAlign = "center";
-  const font = (w, s) => `${w} ${s}px -apple-system, "SF Pro Display", Inter, "Segoe UI", Roboto, sans-serif`;
-  g.fillStyle = "#C6FF3D"; g.font = font(600, 34); g.fillText("CERTIFICADO DE CONCLUSÃO", W / 2, 250);
-  g.fillStyle = "#F5F5F7"; g.font = font(700, 92); g.fillText(certName(), W / 2, 400);
-  g.fillStyle = "rgba(235,235,245,.7)"; g.font = font(400, 38);
+  const font = (w, s) => `${w} ${s}px "Plus Jakarta Sans", system-ui, "Segoe UI", Roboto, sans-serif`;
+  g.fillStyle = "#BEEA4F"; g.font = font(600, 30); g.fillText("CERTIFICADO DE CONCLUSÃO", W / 2, 250);
+  g.fillStyle = "#ECEDEF"; g.font = font(700, 88); g.fillText(certName(), W / 2, 400);
+  g.fillStyle = "#A1A4AB"; g.font = font(400, 36);
   g.fillText(`concluiu as ${lessons.length} lições da Trilha de Educação Financeira`, W / 2, 490);
   g.fillText("do Finlenz · Tecnologia e educação financeira", W / 2, 545);
-  const colors = { green: "#30D158", teal: "#40C8E0", blue: "#0A84FF", orange: "#FF9F0A", indigo: "#5E5CE6", pink: "#FF375F", purple: "#BF5AF2", lime: "#C6FF3D" };
+  const colors = { green: "#7DBE72", teal: "#5FA8A0", blue: "#6E93D6", orange: "#D29B4E", indigo: "#8B8CD8", pink: "#C96B7E", purple: "#A983C6", lime: "#BEEA4F" };
   lessons.forEach((_, i) => {
     const x = W / 2 + (i - (lessons.length - 1) / 2) * 90;
-    g.fillStyle = colors[medalFor(i).tint] || "#8E8E93";
+    g.fillStyle = colors[medalFor(i).tint] || "#8A8D93";
     g.beginPath(); g.arc(x, 680, 30, 0, Math.PI * 2); g.fill();
   });
-  g.fillStyle = "rgba(235,235,245,.55)"; g.font = font(400, 30); g.fillText(date, W / 2, 830);
+  g.fillStyle = "#6B6E76"; g.font = font(400, 30); g.fillText(date, W / 2, 830);
   const done = () => {
     const a = document.createElement("a");
     a.href = c.toDataURL("image/png");
