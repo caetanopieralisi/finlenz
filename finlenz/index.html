@@ -5,16 +5,22 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#0E0F12">
 <meta name="color-scheme" content="dark">
-<title>Finlenz · Enxergue seu dinheiro com clareza</title>
-<meta name="description" content="Finlenz é o app gratuito que ensina educação financeira na prática: veja quantas horas de trabalho uma compra custa, quanto ela atrasa seus sonhos e para onde vai o seu dinheiro.">
+<title>Finlenz · Seu dinheiro, com lentes mais claras</title>
+<meta name="description" content="O Finlenz mostra quanto uma compra custa em horas de trabalho, quanto ela atrasa seus sonhos e os juros escondidos no parcelado. Grátis e sem conectar o banco.">
 <meta property="og:title" content="Finlenz · Seu dinheiro, com lentes mais claras">
-<meta property="og:description" content="Educação financeira na prática. Grátis, sem conectar o seu banco.">
-<meta property="og:image" content="assets/img/logo-full.png">
+<meta property="og:description" content="Veja quanto uma compra custa em horas de trabalho, quanto ela atrasa seus sonhos e os juros escondidos no parcelado. Grátis.">
+<meta property="og:image" content="https://finlenz.vercel.app/assets/media/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:url" content="https://finlenz.vercel.app/">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="pt_BR">
+<meta name="twitter:card" content="summary_large_image">
 <link rel="icon" type="image/png" href="assets/img/logo.png">
 <link rel="apple-touch-icon" href="assets/img/logo.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Schibsted+Grotesk:wght@500;600;700&display=swap" media="print" onload="this.media='all'">
 <link rel="stylesheet" href="assets/css/style.css">
 <link rel="stylesheet" href="assets/css/landing.css">
 </head>
@@ -29,7 +35,7 @@
     </a>
     <nav class="nav__links" aria-label="Seções">
       <a href="#recursos">Recursos</a>
-      <a href="#como-funciona">Como funciona</a>
+      <a href="#como-funciona">Como começar</a>
       <a href="#perguntas">Perguntas</a>
     </nav>
     <div class="nav__actions">
@@ -41,145 +47,95 @@
 
 <main id="conteudo">
 
-  <!-- ===== HERO ===== -->
+  <!-- ===== TOPO ===== -->
   <section class="hero">
     <div class="wrap hero__grid">
       <div class="hero__copy">
-        <p class="eyebrow">Educação financeira na prática</p>
         <h1 class="hero__title">Seu dinheiro, com lentes mais claras.</h1>
-        <p class="hero__lead">Sabe aquela sensação de olhar o saldo e pensar “gastei tudo isso e nem vi para onde foi”? O Finlenz mostra o custo real das coisas antes de você comprar.</p>
+        <p class="hero__lead">O Finlenz mostra quanto uma compra custa em horas de trabalho, quantos dias ela atrasa os seus sonhos e quanto de juros está escondido no parcelado. É grátis e você não precisa conectar o seu banco.</p>
         <div class="hero__cta">
-          <a href="login.html?demo=1" class="pill pill--lg">Testar a conta demo</a>
-          <a href="login.html?mode=signup" class="pill pill--lg pill--ghost">Criar conta grátis</a>
+          <a href="login.html?demo=1" class="pill pill--lg">Abrir a conta demo</a>
+          <a href="login.html?mode=signup" class="pill pill--lg pill--ghost">Criar minha conta</a>
         </div>
-        <ul class="hero__facts">
-          <li><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>Grátis</li>
-          <li><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>Sem conectar seu banco</li>
-          <li><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>Celular e computador</li>
-        </ul>
+        <p class="hero__note">A demo abre com os dados da Ana, estagiária que ganha R$ 2.100 por mês e está juntando para um intercâmbio no Canadá.</p>
       </div>
 
-      <div class="hero__stage" aria-hidden="true">
-        <div class="device">
-          <div class="device__screen">
-            <div class="dv-status"><span>9:41</span><i class="dv-island"></i><i class="dv-batt"></i></div>
-            <p class="dv-eyebrow">Quarta-feira, 23 de setembro</p>
-            <p class="dv-title">Boa tarde, Ana</p>
-            <div class="dv-balance">
-              <span class="dv-label">Saldo de setembro</span>
-              <b class="dv-big">R$ 331,40</b>
-              <span class="dv-hint">Você guardou 15% do que entrou.</span>
-              <div class="dv-flows">
-                <span class="dv-flow"><i class="dv-dot dv-dot--in"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14M6.5 13.5 12 19l5.5-5.5"/></svg></i><small>Entrou</small><b>R$ 2.150</b></span>
-                <span class="dv-flow"><i class="dv-dot dv-dot--out"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5M6.5 10.5 12 5l5.5 5.5"/></svg></i><small>Saiu</small><b>R$ 1.818</b></span>
-              </div>
-            </div>
-            <div class="dv-card">
-              <div class="dv-bar"><i style="flex:38;background:#40C8E0"></i><i style="flex:23;background:#BF5AF2"></i><i style="flex:13;background:#FF9F0A"></i><i style="flex:10;background:#5E5CE6"></i><i style="flex:10;background:#0A84FF"></i><i style="flex:6;background:#8E8E93"></i></div>
-              <div class="dv-legend"><span><i style="background:#40C8E0"></i>Moradia</span><span><i style="background:#BF5AF2"></i>Lazer</span><span><i style="background:#FF9F0A"></i>Comida</span></div>
-            </div>
-            <ul class="dv-list">
-              <li><span class="tile tile--purple"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 9h10a3.5 3.5 0 0 1 3.4 4.3l-.8 3.3a2 2 0 0 1-3.4.9L14.5 15.5h-5l-1.7 2a2 2 0 0 1-3.4-.9l-.8-3.3A3.5 3.5 0 0 1 7 9z"/><path d="M8 11.5v2.5M6.8 12.8h2.4"/></svg></span><span class="dv-tx"><b>Tênis novo</b><small>Lazer · Ontem</small></span><span class="dv-amt">−R$ 399,90</span></li>
-              <li><span class="tile tile--blue"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="4" width="14" height="13" rx="2.5"/><path d="M5 11h14M8 17v2.5M16 17v2.5"/><circle cx="8.5" cy="14" r=".7" fill="currentColor"/><circle cx="15.5" cy="14" r=".7" fill="currentColor"/></svg></span><span class="dv-tx"><b>Uber</b><small>Transporte · 21 set.</small></span><span class="dv-amt">−R$ 27,50</span></li>
-              <li><span class="tile tile--orange"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 3.5v7M5 3.5v4.5a2 2 0 0 0 4 0V3.5M7 10.5v10"/><path d="M16.5 20.5v-17c-2 1-3 3.5-3 6.5 0 1.7.9 2.5 3 2.5"/></svg></span><span class="dv-tx"><b>iFood</b><small>Alimentação · 19 set.</small></span><span class="dv-amt">−R$ 42,90</span></li>
-            </ul>
-            <div class="dv-tabbar"><span class="is-on"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3.5 10.5 12 4l8.5 6.5"/><path d="M5.5 9v10.5h13V9"/><path d="M10 19.5v-5h4v5"/></svg></span><span><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 8v8M8 12h8"/></svg></span><span><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="4" width="6.5" height="6.5" rx="1.8"/><rect x="13.5" y="4" width="6.5" height="6.5" rx="1.8"/><rect x="4" y="13.5" width="6.5" height="6.5" rx="1.8"/><rect x="13.5" y="13.5" width="6.5" height="6.5" rx="1.8"/></svg></span><span><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8.5" r="3.5"/><path d="M5 20c.8-3.6 3.6-5.5 7-5.5s6.2 1.9 7 5.5"/></svg></span></div>
-          </div>
+      <figure class="hero__media">
+        <div class="phone">
+          <video class="phone__screen" poster="assets/media/demo-lente-poster.webp" width="320" height="693" autoplay muted loop playsinline preload="metadata" aria-label="Gravação da conta demo: a Ana digita R$ 399,90 na Lente de compra e depois confere o parcelamento em 10 vezes.">
+            <source src="assets/media/demo-lente.mp4" type="video/mp4">
+            <source src="assets/media/demo-lente.webm" type="video/webm">
+          </video>
         </div>
+        <figcaption>Gravação da conta demo, sem edição.</figcaption>
+      </figure>
+    </div>
+  </section>
 
+  <!-- ===== POR QUE ===== -->
+  <section class="section section--alt" id="proposito">
+    <div class="wrap split">
+      <h2 class="h2">Por que a gente fez o Finlenz</h2>
+      <div class="letter">
+        <p>No ano passado fomos ao MIT e a Harvard. Vimos de perto como as pessoas de lá pensam sobre dinheiro e voltamos querendo levar isso para a prática aqui.</p>
+        <p>Por isso o Finlenz foi pensado para o momento da compra, quando o produto ainda está no carrinho e dá para mudar de ideia. Entender seus hábitos hoje é o que paga os seus sonhos depois.</p>
+        <p class="letter__sign">Caetano Pieralisi e equipe</p>
       </div>
     </div>
   </section>
 
-  <!-- ===== NÚMEROS ===== -->
-  <section class="stats" aria-label="O Finlenz em números">
-    <div class="wrap stats__grid">
-      <div><b>8</b><span>ferramentas para decidir antes de gastar</span></div>
-      <div><b>8</b><span>lições curtas de educação financeira</span></div>
-      <div><b>R$ 0</b><span>para usar, sem anúncios e sem plano pago</span></div>
-    </div>
-  </section>
-
-  <!-- ===== PROPÓSITO ===== -->
-  <section class="section" id="proposito">
-    <div class="wrap narrow">
-      <p class="eyebrow">Nosso propósito</p>
-      <h2 class="h2">Educação financeira é hábito, não aula</h2>
-      <p class="statement">Não somos só mais um app de controle de gastos. <span>Mostramos para onde o seu dinheiro vai no dia a dia para gerar uma mudança real de mentalidade: entender seus hábitos hoje para financiar seus sonhos amanhã.</span></p>
-    </div>
-  </section>
-
-  <!-- ===== DESTAQUES ===== -->
-  <section class="section section--tight" id="recursos">
+  <!-- ===== RECURSOS (prints reais) ===== -->
+  <section class="section" id="recursos">
     <div class="wrap">
-      <div class="head">
-        <p class="eyebrow">Recursos</p>
-        <h2 class="h2">Feito para o momento antes da compra</h2>
-        <p class="lead">A pergunta deixa de ser “quanto custa?” e passa a ser “quanto isso me custa?”.</p>
-      </div>
+      <h2 class="h2 head">O que dá para fazer</h2>
 
       <article class="feature">
         <div class="feature__text">
-          <h3>Veja o preço em horas da sua vida.</h3>
-          <p>Informe sua renda e sua jornada. O Finlenz traduz qualquer compra em horas e dias de trabalho, para você decidir com a cabeça fria.</p>
+          <h3>Digite um preço e veja o que ele custa de verdade</h3>
+          <p>Um tênis de R$ 399,90 custa 33 horas de trabalho para a Ana, atrasa o intercâmbio dela em 30 dias e passa do que sobrou no mês. Isso aparece na tela inicial, antes de você decidir.</p>
         </div>
-        <div class="feature__viz">
-          <div class="viz">
-            <small class="viz__label">Tênis novo · R$ 399,90</small>
-            <b class="viz__big viz__big--red">33,1<span>h</span></b>
-            <p class="viz__sub">≈ 4 dias de trabalho</p>
-            <div class="meter"><i style="width:83%"></i></div>
-            <p class="viz__foot">83% da sua semana de trabalho</p>
-          </div>
-        </div>
+        <figure class="shot">
+          <img src="assets/media/app-lente.webp" width="900" height="984" loading="lazy" decoding="async" alt="Lente de compra com R$ 399,90: 33,1 horas de trabalho, 30 dias a mais para o intercâmbio e 121% do que sobrou no mês.">
+          <figcaption>Lente de compra, na tela inicial</figcaption>
+        </figure>
       </article>
 
       <article class="feature feature--flip">
         <div class="feature__text">
-          <h3>Saiba quanto um impulso atrasa o seu sonho.</h3>
-          <p>Cadastre seus objetivos e quanto guarda por mês. Antes de comprar, veja quantos dias aquela compra empurra o seu sonho para frente.</p>
+          <h3>Descubra os juros escondidos no parcelado</h3>
+          <p>Dez vezes de R$ 49,99 parece quase o mesmo que R$ 399,90 à vista. Não é: dá 4,28% ao mês, ou 65% ao ano. Você informa o preço e o valor da parcela, e o Finlenz calcula o resto.</p>
         </div>
-        <div class="feature__viz">
-          <div class="viz viz--row">
-            <svg class="ring" viewBox="0 0 44 44" aria-hidden="true"><circle cx="22" cy="22" r="18" class="ring__track"/><circle cx="22" cy="22" r="18" class="ring__fill" pathLength="100" style="stroke-dashoffset:65"/></svg>
-            <div>
-              <b class="viz__title">Intercâmbio no Canadá</b>
-              <small class="viz__muted">R$ 5.200 de R$ 15.000 · 35%</small>
-              <span class="tag tag--warn">+30 dias com o tênis</span>
-            </div>
-          </div>
-        </div>
+        <figure class="shot">
+          <img src="assets/media/app-parcelado.webp" width="900" height="1192" loading="lazy" decoding="async" alt="Parcelado ou à vista: 10 vezes de R$ 49,99 contra R$ 399,90 à vista, juros de 4,28% ao mês.">
+          <figcaption>Parcelado ou à vista?</figcaption>
+        </figure>
       </article>
 
       <article class="feature">
         <div class="feature__text">
-          <h3>Enxergue seu dinheiro daqui a seis meses.</h3>
-          <p>Com base no que entra e sai todo mês, o Finlenz projeta o seu saldo e avisa se o ritmo atual vai te deixar no vermelho.</p>
+          <h3>Veja quando o seu sonho fica pronto</h3>
+          <p>Cadastre o que você quer conquistar e quanto guarda por mês. Quando a Ana arrasta o controle e guarda R$ 100 a mais, o intercâmbio chega cinco meses antes.</p>
         </div>
-        <div class="feature__viz">
-          <div class="viz">
-            <small class="viz__label">Em 6 meses</small>
-            <b class="viz__big">R$ 4.956</b>
-            <svg class="spark" viewBox="0 0 300 110" preserveAspectRatio="none" aria-hidden="true">
-              <path d="M0 96 L40 90 L80 84 L120 76" fill="none" stroke="#BEEA4F" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" vector-effect="non-scaling-stroke"/>
-              <path d="M120 76 L300 14" fill="none" stroke="#BEEA4F" stroke-opacity=".7" stroke-width="2" stroke-dasharray="6 6" vector-effect="non-scaling-stroke"/>
-              <circle cx="120" cy="76" r="4" fill="#BEEA4F"/>
-            </svg>
-            <p class="viz__foot">Linha sólida: o que já aconteceu. Tracejada: projeção.</p>
-          </div>
-        </div>
+        <figure class="shot">
+          <img src="assets/media/app-sonhos.webp" width="900" height="1137" loading="lazy" decoding="async" alt="Simulação: guardando R$ 500 por mês, o Intercâmbio no Canadá fica pronto em 20 meses, 5 meses antes.">
+          <figcaption>Custo dos sonhos: e se eu guardasse mais?</figcaption>
+        </figure>
       </article>
 
-      <article class="feature feature--flip">
+      <article class="feature feature--pair">
         <div class="feature__text">
-          <h3>Um mentor que conhece os seus números.</h3>
-          <p>Tire dúvidas a qualquer hora. As respostas usam seus lançamentos e sonhos reais, não conselhos genéricos de manual.</p>
+          <h3>Previsão e mentoria usando os seus números</h3>
+          <p>A previsão projeta o seu saldo para os próximos seis meses com base no que entra e sai. Na mentoria você pergunta do seu jeito, e a resposta leva em conta os seus lançamentos e sonhos.</p>
         </div>
-        <div class="feature__viz">
-          <div class="viz viz--chat">
-            <p class="msg msg--me">Comprei um tênis de R$ 399,90 ontem. Fiz besteira?</p>
-            <p class="msg">Não é o fim do mundo: ele custa umas 33 horas de trabalho e atrasa seu intercâmbio em cerca de 30 dias. Pulando 3 iFoods por mês você compensa.</p>
-          </div>
+        <div class="shots">
+          <figure class="shot">
+            <img src="assets/media/app-previsao.webp" width="900" height="1265" loading="lazy" decoding="async" alt="Previsão: em 6 meses a Ana deve ter cerca de R$ 4.955,75 guardados.">
+            <figcaption>Previsão</figcaption>
+          </figure>
+          <figure class="shot">
+            <img src="assets/media/app-mentoria.webp" width="900" height="826" loading="lazy" decoding="async" alt="Mentoria: a Ana pergunta se fez besteira ao comprar um tênis de R$ 399,90 e recebe uma resposta com os números dela.">
+            <figcaption>Mentoria</figcaption>
+          </figure>
         </div>
       </article>
     </div>
@@ -189,55 +145,39 @@
   <section class="section section--alt">
     <div class="wrap split">
       <div class="split__aside">
-        <p class="eyebrow">Ferramentas</p>
         <h2 class="h2">Tudo o que vem no app</h2>
-        <p class="lead">São dez partes que conversam entre si: o que você lança aparece na lente, nos sonhos e na previsão.</p>
+        <p class="lead">As partes conversam entre si: o que você lança aparece na lente, nos sonhos e na previsão.</p>
       </div>
       <ul class="tools">
-        <li><b>Lançamentos</b><span>Registre entradas e saídas por categoria em segundos.</span></li>
-        <li><b>Lente de compra</b><span>Digite um preço e veja o impacto em horas, no sonho e no mês.</span></li>
-        <li><b>Valor-hora</b><span>Qualquer compra traduzida em horas de trabalho.</span></li>
-        <li><b>Parcelado ou à vista</b><span>Os juros escondidos em cada parcela, antes de passar o cartão.</span></li>
+        <li><b>Lançamentos</b><span>Entradas e saídas por categoria.</span></li>
+        <li><b>Lente de compra</b><span>O impacto de um preço em horas, no sonho e no mês.</span></li>
+        <li><b>Valor-hora</b><span>Qualquer compra convertida em horas de trabalho.</span></li>
+        <li><b>Parcelado ou à vista</b><span>Os juros de cada parcelamento, antes de passar o cartão.</span></li>
         <li><b>Custo dos sonhos</b><span>Quanto um gasto atrasa o seu objetivo.</span></li>
-        <li><b>Previsão</b><span>Seu saldo projetado para os próximos seis meses.</span></li>
+        <li><b>Previsão</b><span>O saldo projetado para os próximos seis meses.</span></li>
         <li><b>Investimentos</b><span>Poupança, CDB, Tesouro e FIIs lado a lado, já com IR.</span></li>
         <li><b>Trilha</b><span>Lições curtas com quiz, medalhas e certificado.</span></li>
-        <li><b>Glossário</b><span>CDI, Selic, liquidez: tudo em palavras simples.</span></li>
-        <li><b>Mentoria</b><span>Dúvidas respondidas com base nos seus próprios números.</span></li>
+        <li><b>Glossário</b><span>CDI, Selic, liquidez e outros termos em palavras simples.</span></li>
+        <li><b>Mentoria</b><span>Perguntas respondidas com base nos seus números.</span></li>
       </ul>
     </div>
   </section>
 
-  <!-- ===== COMO FUNCIONA ===== -->
+  <!-- ===== COMO COMEÇAR ===== -->
   <section class="section" id="como-funciona">
     <div class="wrap split">
-      <div class="split__aside">
-        <p class="eyebrow">Como funciona</p>
-        <h2 class="h2">Sem planilha, sem conectar banco</h2>
+      <h2 class="h2">Como começar</h2>
+      <div class="letter">
+        <p>Crie a conta com o seu e-mail, o que leva menos de um minuto. Depois informe a sua renda, lance os gastos do mês e cadastre um sonho. A partir daí a lente, a previsão e os insights já funcionam com os seus números.</p>
+        <p>O Finlenz não pede acesso ao seu banco. Você lança tudo à mão, e isso por si só já ajuda a perceber para onde o dinheiro vai. Se quiser olhar antes de criar conta, a demo mostra o app com os dados da Ana e volta ao estado original a cada acesso.</p>
       </div>
-      <ol class="steps">
-        <li><span class="steps__n">01</span><div><h3>Crie sua conta</h3><p>Leva menos de um minuto. Se preferir, explore antes com a conta demo.</p></div></li>
-        <li><span class="steps__n">02</span><div><h3>Registre sua realidade</h3><p>Sua renda, seus gastos do mês e os sonhos que você está planejando.</p></div></li>
-        <li><span class="steps__n">03</span><div><h3>Decida com os números na frente</h3><p>Antes de uma compra importante, veja o impacto dela no seu mês e nos seus sonhos.</p></div></li>
-      </ol>
     </div>
-  </section>
-
-  <!-- ===== NOTA ===== -->
-  <section class="section section--alt">
-    <figure class="wrap narrow quote">
-      <blockquote>No ano passado, fomos ao MIT e a Harvard. Vimos de perto a realidade e a mentalidade das pessoas de lá e decidimos criar algo nesse sentido para aplicar na prática.</blockquote>
-      <figcaption>Nota dos criadores</figcaption>
-    </figure>
   </section>
 
   <!-- ===== FAQ ===== -->
   <section class="section" id="perguntas">
     <div class="wrap narrow">
-      <div class="head head--left">
-        <p class="eyebrow">Perguntas</p>
-        <h2 class="h2">Perguntas frequentes</h2>
-      </div>
+      <h2 class="h2 head">Perguntas frequentes</h2>
       <div class="faq">
         <details><summary>O Finlenz é gratuito?<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></summary><p>Sim. Todas as ferramentas, a trilha e a mentoria são gratuitas.</p></details>
         <details><summary>Preciso conectar minha conta do banco?<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></summary><p>Não. Você registra seus lançamentos manualmente, o que também ajuda a criar consciência sobre cada gasto.</p></details>
@@ -252,11 +192,11 @@
   <!-- ===== CTA ===== -->
   <section class="cta">
     <div class="wrap cta__inner">
-      <h2 class="h2">Teste agora, leva um minuto</h2>
-      <p class="lead">A conta demo já vem com os dados da Ana, uma estagiária. Não precisa de cadastro.</p>
+      <h2 class="h2">Teste com os dados da Ana</h2>
+      <p class="lead">A conta demo não precisa de cadastro e volta ao estado original a cada acesso.</p>
       <div class="hero__cta">
-        <a href="login.html?mode=signup" class="pill pill--lg">Criar conta grátis</a>
-        <a href="login.html?demo=1" class="pill pill--lg pill--ghost">Testar a conta demo</a>
+        <a href="login.html?demo=1" class="pill pill--lg">Abrir a conta demo</a>
+        <a href="login.html?mode=signup" class="pill pill--lg pill--ghost">Criar minha conta</a>
       </div>
     </div>
   </section>
@@ -268,7 +208,7 @@
       <a href="index.html" class="nav__brand"><img src="assets/img/logo.png" alt="" width="28" height="27" loading="lazy" decoding="async"><span>Finlenz</span></a>
       <p>Tecnologia e educação financeira.</p>
     </div>
-    <nav aria-label="Produto"><b>Produto</b><a href="#recursos">Recursos</a><a href="#como-funciona">Como funciona</a><a href="#perguntas">Perguntas</a></nav>
+    <nav aria-label="Produto"><b>Produto</b><a href="#recursos">Recursos</a><a href="#como-funciona">Como começar</a><a href="#perguntas">Perguntas</a></nav>
     <nav aria-label="Conta"><b>Conta</b><a href="login.html">Entrar</a><a href="login.html?mode=signup">Criar conta</a><a href="login.html?demo=1">Conta demo</a></nav>
   </div>
   <div class="wrap foot__base">Desenvolvido por Caetano Pieralisi · 2026</div>

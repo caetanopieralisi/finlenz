@@ -9,7 +9,7 @@
 <link rel="icon" type="image/png" href="assets/img/logo.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Schibsted+Grotesk:wght@500;600;700&display=swap" media="print" onload="this.media='all'">
 <link rel="stylesheet" href="assets/css/style.css">
 <style>
   body{ min-height: 100vh; background: var(--bg); }
@@ -95,8 +95,8 @@
 
     <!-- 1. Nota -->
     <section class="step" data-key="nota">
-      <p class="kicker">Rapidinho, leva 1 minuto</p>
       <h1 class="q">De 0 a 10, quanto você indicaria o Finlenz para um amigo?</h1>
+      <p class="hint">São seis perguntas curtas, leva um minuto.</p>
       <div class="body">
         <div class="scale" id="scale"></div>
         <div class="scale-legend"><span>Nada provável</span><span>Com certeza</span></div>
@@ -105,7 +105,6 @@
 
     <!-- 2. O que mais gostou -->
     <section class="step" data-key="favoritos" data-multi="1">
-      <p class="kicker">O que mais te chamou atenção?</p>
       <h1 class="q">Quais ferramentas você mais curtiu?</h1>
       <p class="hint">Pode escolher mais de uma.</p>
       <div class="body chips" data-group="favoritos">
@@ -122,7 +121,6 @@
 
     <!-- 3. Perfil e setor -->
     <section class="step" data-key="perfil">
-      <p class="kicker">Sobre você</p>
       <h1 class="q">Conta um pouco de você</h1>
       <div class="body">
         <label class="field"><span>Você é…</span>
@@ -163,7 +161,6 @@
 
     <!-- 4. Idade -->
     <section class="step" data-key="idade">
-      <p class="kicker">Sobre você</p>
       <h1 class="q">Qual a sua idade?</h1>
       <div class="body opts opts--2" data-group="idade">
         <button type="button" class="opt" data-v="Até 17">Até 17</button>
@@ -175,7 +172,6 @@
 
     <!-- 5. Contato -->
     <section class="step" data-key="contato">
-      <p class="kicker">Quase lá</p>
       <h1 class="q">Como a gente fala com você?</h1>
       <div class="body">
         <label class="field"><span>Seu nome</span><input type="text" id="nome" name="nome" autocomplete="name" placeholder="Como te chamamos?"></label>
@@ -195,8 +191,8 @@
 
     <!-- 6. Comentário (opcional) -->
     <section class="step" data-key="comentario" data-optional="1">
-      <p class="kicker">Opcional</p>
       <h1 class="q">Quer contar mais alguma coisa?</h1>
+      <p class="hint">Opcional. Pode pular se preferir.</p>
       <div class="body">
         <textarea id="comentario" name="comentario" placeholder="Quais são seus planos com o Finlenz? Usar no dia a dia, investir, levar para a sua empresa ou para os seus alunos… Sugestões também são muito bem-vindas."></textarea>
       </div>
