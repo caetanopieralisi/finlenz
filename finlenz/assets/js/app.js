@@ -26,12 +26,8 @@ const SCREEN_TITLES = {
   glossary: "Glossário", mentor: "Mentoria", tools: "Ferramentas",
   profile: "Perfil", settings: "Configurações",
 };
-const SCREEN_EYEBROWS = {
-  transactions: "Entradas e saídas", hourvalue: "Ferramenta", installments: "Ferramenta", dreams: "Ferramenta",
-  forecast: "Ferramenta", investments: "Simulador", learning: "Aprenda no seu ritmo",
-  glossary: "Consulta rápida", mentor: "Assistente", tools: "Tudo em um lugar",
-  profile: "Sua conta", settings: "Sua conta",
-};
+// Rótulo acima do título: só a data, na tela inicial.
+const SCREEN_EYEBROWS = {};
 const ROOT_SCREENS = ["home", "transactions", "tools", "profile"];
 
 hydrateIcons();
