@@ -2,7 +2,8 @@
    FINLENZ — base visual
    Superfícies sólidas em grafite (nada de preto puro), bordas de 1px,
    raios fixos (12px cartões, 8px controles), uma única fonte
-   (Plus Jakarta Sans) e o verde-lima só onde importa.
+   (Schibsted Grotesk nos títulos e números, Plus Jakarta Sans no texto)
+   e o verde-lima só onde importa.
    =========================================================== */
 
 
@@ -49,7 +50,7 @@
   --shadow: 0 4px 20px rgba(0,0,0,.12);
   --shadow-float: 0 12px 40px rgba(0,0,0,.35);
 
-  --font-display: "Plus Jakarta Sans", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font-display: "Schibsted Grotesk", "Plus Jakarta Sans", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
   --font-body: "Plus Jakarta Sans", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
 
   --ease: cubic-bezier(.4,0,.2,1);
@@ -70,7 +71,8 @@ body{
   letter-spacing: 0;
   -webkit-tap-highlight-color: transparent;
 }
-h1,h2,h3,h4{ font-family: var(--font-display); color: var(--text); line-height: 1.15; letter-spacing: -0.02em; font-weight: 700; }
+h1,h2,h3,h4{ font-family: var(--font-display); color: var(--text); line-height: 1.15; letter-spacing: -0.015em; font-weight: 700; text-wrap: balance; }
+p, li, small{ text-wrap: pretty; }
 h3{ font-size: 20px; }
 a{ color: inherit; text-decoration: none; }
 img{ max-width: 100%; display:block; }
